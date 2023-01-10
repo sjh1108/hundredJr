@@ -8,16 +8,17 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         String s = br.readLine();
 
+        final int M = 1234567891;
         long sum = 0;
-        int[] arr = new int[N];
 
         for(int i = 0; i < N; i++){
-            arr[i] = s.charAt(i) - 'a' + 1;
-            sum += arr[i] * Math.pow(31, i);
+            int a = s.charAt(i) - 'a' + 1;
+            int b = (int) Math.pow(31, i);
+
+            sum += a * b;
         }
+        sum %= M;
 
-        sb.append(sum);
-
-        System.out.println(sb);
+        System.out.println(sum);
     }
 }
