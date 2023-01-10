@@ -11,14 +11,15 @@ public class Main {
         final int M = 1234567891;
         long sum = 0;
 
+        long b = 1;
+
         for(int i = 0; i < N; i++){
             int a = s.charAt(i) - 'a' + 1;
-            int b = (int) Math.pow(31, i);
-
             sum += a * b;
+            b = (b * 31) % M;
+            
         }
-        sum %= M;
 
-        System.out.println(sum);
+        System.out.println((int)sum);
     }
 }
