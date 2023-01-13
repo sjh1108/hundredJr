@@ -1,4 +1,4 @@
-//import java.util.*;
+import java.util.*;
 import java.io.*;
 
 public class Main {
@@ -6,23 +6,34 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws IOException{
         int x = Integer.parseInt(br.readLine());
+
         int[] arr = new int[x];
-        int[] narr = new int[x - 1];
-        arr[0] = Integer.parseInt(br.readLine());
-        for(int i = 1; i < x; i++){
+
+        for(int i = 0; i < x; i++){
             arr[i] = Integer.parseInt(br.readLine());
-            if(arr[i] > arr[i - 1]) narr[i - 1] = arr[i] - arr[i - 1];
-            else narr[i - 1] = arr[i - 1] - arr[i];
-        }
-        int a = narr[0];
-        for(int  i = 1; i < x - 1; i++){
-            a = gcd(narr[i], a);
         }
 
-        for(int i = 2; i <= a / 2; i++){
-            if(a % i == 0){
-                sb.append(i).append(' ');
+        Arrays.sort(arr);
+
+        int a = arr[1] - arr[0];
+
+        for(int i = 2; i < x; i++){
+            a = gcd(arr[i] - arr[i - 1], a);
+        }
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        for(int i = 2; i <= Math.sqrt(a); i++){
+            if(i * i == a) list.add(i);
+            else if(a % i == 0){
+                list.add(i);
+                list.add(a / i);
             }
+        }
+
+        Collections.sort(list);
+        for(int val : list){
+            sb.append(val).append(' ' );
         }
         sb.append(a);
 
