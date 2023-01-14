@@ -13,8 +13,9 @@ public class Main {
 
         long n2 = two(N) - two(N - M) - two(M);
         long n5 = five(N) - five(N - M) - five(M);
+        long tmp = Math.min(n2, n5);
 
-        System.out.println(Math.min(n2, n5));
+        System.out.println(tmp);
     }
     static long five(long num){
         int count = 0;
