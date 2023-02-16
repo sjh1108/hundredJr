@@ -59,11 +59,12 @@ public class Main {
     static int[][] multiply(int[][] o1, int[][] o2){
         int[][] ret = new int[N][N];
 
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                for(int k = 0; k < N; k++) {
-                    
-                    ret[i][j] += o1[i][k] * o2[k][j];
+        int r;
+        for (int k = 0; k < N; k++) {
+            for (int i = 0; i < N; i++) {
+                r = o1[i][k];			
+                for (int j = 0; j < N; j++) {
+                    ret[i][j] += r * o2[k][j];
                     ret[i][j] %= p;
                 }
             }
