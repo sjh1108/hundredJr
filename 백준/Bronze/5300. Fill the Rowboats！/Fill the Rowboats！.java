@@ -1,15 +1,21 @@
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        int n=sc.nextInt();
+public class Main{
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
 
-        for(int i=0;i<n;i++){
-            System.out.print((i+1)+" ");
-            if((i+1)%6==0 || i==n-1){
-                System.out.print("Go! ");
-            }
+    static int N, M;
+
+    public static void main(String[] args) throws IOException{
+        long N = Long.parseLong(br.readLine());
+
+        for(long i = 1; i <= N; i++){
+            sb.append(i).append(' ');
+            if(i % 6 == 0 || i == N) sb.append("Go! ");
         }
+
+        System.out.println(sb);
     }
 }
