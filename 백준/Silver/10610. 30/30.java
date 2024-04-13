@@ -10,21 +10,25 @@ public class Main{
 
     public static void main(String[] args) throws IOException{
         String s = br.readLine();
-        int[] arr = new int[s.length()];
+        int[] arr = new int[10];
 
-        int sum = 0;
         for(int i = 0; i < s.length(); i++){
-            arr[i] = s.charAt(i) - '0';
-            sum += arr[i];
+            arr[s.charAt(i) - '0']++;
         }
-        if(sum % 3 != 0 || !s.contains("0")){
+        int sum = 0;
+        for(int i = 0; i < 10; i++){
+            sum += i * arr[i];
+        }
+        if(arr[0] == 0 || sum % 3 != 0){
             System.out.println(-1);
             return;
         }
 
-        Arrays.sort(arr);
-        for(int i = s.length() - 1; i >= 0; i--){
-            System.out.print(arr[i]);
+        for(int i = 9; i >= 0; i--){
+            for(int j = 0; j < arr[i]; j++){
+                sb.append(i);
+            }
         }
+        System.out.println(sb);
     }
 }
