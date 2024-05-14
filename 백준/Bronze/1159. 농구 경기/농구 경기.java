@@ -11,27 +11,21 @@ public class Main{
     public static void main(String[] args) throws IOException{
         N = Integer.parseInt(br.readLine());
 
-        int[] arr = new int[26];
-        boolean flag = false;
-        while(N-- > 0){
-            String s = br.readLine();
+        int[] falpha = new int[26];
+        for(int i = 0; i < N; i++){
+            String str = br.readLine();
+            falpha[str.charAt(0) - 'a']++;
+        }
 
-            char c = s.charAt(0);
-            arr[c - 'a']++;
-            if(arr[c - 'a'] >= 5){
+        boolean flag = false;
+        for(int i = 0; i < 26; i++){
+            if(falpha[i] >= 5){
+                sb.append((char)(i + 'a'));
                 flag = true;
             }
         }
 
-        if(!flag){
-            System.out.println("PREDAJA");
-            return;
-        }
-        for(int i = 0; i < 26; i++){
-            if(arr[i] >= 5){
-                sb.append((char)(i + 'a'));
-            }
-        }
+        if(!flag) sb.append("PREDAJA");
         System.out.println(sb);
     }
 }
