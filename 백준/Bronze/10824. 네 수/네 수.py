@@ -1,4 +1,5 @@
-a, b, c, d = input().split()
+a,b,c,d = input().split()
+
 a = a+b
 c = c+d
 
