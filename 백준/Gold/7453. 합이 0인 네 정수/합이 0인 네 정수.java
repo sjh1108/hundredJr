@@ -44,21 +44,27 @@ public class Main{
         long answer = 0;
 		int left = 0, right = N*N-1;
 		while (left < N*N && right >= 0) {
-			if (ab[left] + cd[right] < 0) {
+            long sum = ab[left] + cd[right];
+			if (sum < 0)
 				left++;
-			} else if (ab[left] + cd[right] > 0) {
+
+            else if (sum > 0)
 				right--;
-			} else {
-				long leftCount = 1, rightCount = 1;
+
+            else {
+				long cnt1 = 1, cnt2 = 1;
+
 				while (left + 1 < N*N && (ab[left] == ab[left+1])) {
-					leftCount++;
+					cnt1++;
 					left++;
 				}
+
 				while (right > 0 && (cd[right] == cd[right-1])) {
-					rightCount++;
+					cnt2++;
 					right--;
 				}
-				answer += leftCount * rightCount;
+                
+				answer += cnt1 * cnt2;
 				left++;
 			}
 		}
