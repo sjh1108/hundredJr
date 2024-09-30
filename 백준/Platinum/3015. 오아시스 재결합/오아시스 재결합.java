@@ -10,13 +10,18 @@ public class Main{
     
     static Stack<Node> stack = new Stack<>();
 
-    static class Node{
+    static class Node implements Comparable<Node>{
         int height;
         int count;
 
         Node(int height, int count){
             this.height = height;
             this.count = count;
+        }
+
+        @Override
+        public int compareTo(Node o){
+            return this.height - o.height;
         }
     }
     public static void main(String[] args) throws IOException{
