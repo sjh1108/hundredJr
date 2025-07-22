@@ -1,56 +1,52 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
-public class Main { // 수도꼭지
+public class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N+1];
+        boolean[] toggle = new boolean[N+1];
+        
+        long sum = 0;
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i = 1; i <= N; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+            sum += arr[i];
+        }
+        sb.append(sum).append('\n');
+        
+        int q = Integer.parseInt(br.readLine());
+        while(q-- > 0){
+            st = new StringTokenizer(br.readLine());
 
-		int N = Integer.parseInt(bf.readLine());
-		int arr[] = new int[N + 1];
-		boolean visited[] = new boolean[N + 1];
+            int type = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
 
-		long answer = 0;
-		st = new StringTokenizer(bf.readLine());
-		for (int i = 1; i < N + 1; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-			answer += arr[i];
-		}
-		bw.write(answer + "\n");
-
-		int Q = Integer.parseInt(bf.readLine());
-		for (int i = 0; i < Q; i++) {
-			st = new StringTokenizer(bf.readLine());
-
-			int num = Integer.parseInt(st.nextToken());
-			if (num == 1) {
-				int temp = Integer.parseInt(st.nextToken());
-				int x = Integer.parseInt(st.nextToken());
-				if (visited[temp]) {
-					arr[temp] = x;
+            if(type == 2){
+				if (!toggle[num]) {
+					toggle[num] = true;
+					sum -= arr[num];
 				} else {
-					answer -= arr[temp];
-					arr[temp] = x;
-					answer += arr[temp];
+					toggle[num] = false;
+					sum += arr[num];
 				}
-			} else {
-				int x = Integer.parseInt(st.nextToken());
-				if (!visited[x]) {
-					visited[x] = true;
-					answer -= arr[x];
+            } else{
+                int x = Integer.parseInt(st.nextToken());
+				if (toggle[num]) {
+					arr[num] = x;
 				} else {
-					visited[x] = false;
-					answer += arr[x];
+					sum -= arr[num];
+					arr[num] = x;
+					sum += arr[num];
 				}
-			}
-			bw.write(answer + "\n");
-		}
-		bw.flush();
-	}
+            }
+
+            sb.append(sum).append('\n');
+        }
+
+        System.out.println(sb);
+    }
 }
