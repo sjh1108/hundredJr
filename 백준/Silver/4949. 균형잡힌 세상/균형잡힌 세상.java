@@ -1,83 +1,49 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-
-    static int N;
-    static int M;
-    static long K;
-    
-    static int[] arr;
-    static int[] f;
-    static boolean[] brr;
-    static int[][] dp;
-
     public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
         while(true){
-            String s = br.readLine();
+            char[] sequence = br.readLine().toCharArray();
+            if(sequence[0] == '.') break;
 
-            if(s.equals(".")){
-                break;
-            }
-
-            int tmp = 0;
-
-            char[] crr = new char[s.length()];
-
-            boolean check = true;
-
-            for(int i = 0; i < s.length(); i++){
-                char c = s.charAt(i);
-                if(c == '('){
-                    crr[tmp++] = '(';
-                } 
-
-                else if(c == '['){
-                    crr[tmp++] = '[';
+            boolean flag = true;
+            for(char c: sequence){
+                if(c == '['){
+                    stack.push(c);
+                } else if(c == '('){
+                    stack.push(c);
                 }
 
-                else if(c == ')'){
-                    if(tmp > 0){
-                        if(crr[--tmp] == '('){
-                            continue;
-                        } else{
-                            check = false;
-                            break;
-                        }
-                    } else{
-                        check = false;
-                        break;
-                    }
-                } 
-                
                 else if(c == ']'){
-                    if(tmp > 0){
-                        if(crr[--tmp] == '['){
-                            continue;
-                        } else{
-                            check = false;
-                            break;
-                        }
+                    if(stack.size() > 0 && stack.peek() == '['){
+                        stack.pop();
                     } else{
-                        check = false;
+                        flag = false;
                         break;
                     }
-                } else if(c == '.'){
-                    if(tmp > 0){
-                        check = false;
+                }
+                else if(c == ')'){
+                    if(stack.size() > 0 && stack.peek() == '('){
+                        stack.pop();
+                    } else{
+                        flag = false;
+                        break;
                     }
-                    break;
                 }
             }
-
-            if(check){
-                sb.append("yes");
-            } else{
-                sb.append("no");
+            if(!stack.isEmpty()) {
+                flag = false;
+                while(!stack.isEmpty()) stack.pop();
             }
+
+            if(flag) sb.append("yes");
+            else     sb.append("no");
 
             sb.append('\n');
         }
