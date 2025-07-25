@@ -1,32 +1,28 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    // static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    static StringTokenizer st;
-    static int N, M;
-
+public class Main{
     public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        
+        int[] sum = new int[n+1];
         st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken()); M = Integer.parseInt(st.nextToken());
-
-        int[] arr = new int[N];
-        int[] sum = new int[N];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            sum[i] = (i == 0) ? arr[i] : sum[i-1] + arr[i];
+        for(int i = 1; i <= n; i++){
+            sum[i] = Integer.parseInt(st.nextToken()) + sum[i-1];
         }
 
         int cnt = 0;
-        for(int i = 0; i < N; i++){
-            for(int j = 0; j < i; j++){
-                if(sum[i] - sum[j] == M) cnt++;
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j < i; j++){
+                if(sum[i] - sum[j] == m) cnt++;
             }
-            if(sum[i] == M) cnt++;
+
+            if(sum[i] == m) cnt++;
         }
+
         System.out.println(cnt);
     }
 }
