@@ -1,75 +1,123 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.StringTokenizer;
 
-public class Main{
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int N, M;
+public class Main {
+    static class Node{
+        char name;
+        Node left;
+        Node right;
 
-    static Node head = new Node('A', null, null);
-    public static void main(String[] args) throws IOException{
-        N = Integer.parseInt(br.readLine());
+        static final char root = 'A';
+        static List<Node> list = new LinkedList<>();
+        Node(char name) {
+            this.name = name;
 
-        while(N-- >0){
+            list.add(this);
+        }
+
+        void setLeft(Node left){
+            this.left = left;
+        }
+        void setRight(Node right){
+            this.right = right;
+        }
+
+        static Node findNode(char c){
+            for(Node n: list){
+                if(n.name == c){
+                    return n;
+                }
+            }
+
+            return null;
+        }
+
+        static List<Node> preOrder(Node head){
+            if(head == null){
+                return List.of();
+            }
+            List<Node> nodes = new ArrayList<>();
+
+            nodes.add(head);
+            nodes.addAll(preOrder(head.left));
+            nodes.addAll(preOrder(head.right));
+
+            return nodes;
+        }
+        static List<Node> inOrder(Node head){
+            if(head == null){
+                return List.of();
+            }
+            List<Node> nodes = new ArrayList<>();
+
+            nodes.addAll(inOrder(head.left));
+            nodes.add(head);
+            nodes.addAll(inOrder(head.right));
+
+            return nodes;
+        }
+        static List<Node> postOrder(Node head){
+            if(head == null){
+                return List.of();
+            }
+            List<Node> nodes = new ArrayList<>();
+
+            nodes.addAll(postOrder(head.left));
+            nodes.addAll(postOrder(head.right));
+            nodes.add(head);
+
+            return nodes;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+
+        StringTokenizer st;
+        while(N-- > 0){
             st = new StringTokenizer(br.readLine());
+
             char root = st.nextToken().charAt(0);
             char left = st.nextToken().charAt(0);
             char right = st.nextToken().charAt(0);
 
-            insertNode(head, root, left, right);
+            Node hNode = Node.findNode(root);
+            if(hNode == null){
+                hNode = new Node(root);
+            }
+            Node lNode, rNode;
+            if(left == '.') lNode = null;
+            else{
+                lNode = new Node(left);
+            }
+            if(right == '.') rNode = null; 
+            else{
+                rNode = new Node(right);
+            }
+
+            hNode.setLeft(lNode);
+            hNode.setRight(rNode);
         }
 
-        preOrder(head);
-        sb.append('\n');        
-        inOrder(head);
-        sb.append('\n');        
-        postOrder(head);
+        StringBuilder sb = new StringBuilder();
+        for(Node n: Node.preOrder(Node.findNode(Node.root))){
+            sb.append(n.name);
+        }
+        sb.append('\n');
+        for(Node n: Node.inOrder(Node.findNode(Node.root))){
+            sb.append(n.name);
+        }
+        sb.append('\n');
+        for(Node n: Node.postOrder(Node.findNode(Node.root))){
+            sb.append(n.name);
+        }
         System.out.println(sb);
     }
-
-    static class Node{
-        char value;
-        Node left;
-        Node right;
-        
-        Node(char value, Node left, Node right){
-            this.value = value;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    public static void insertNode(Node temp, char root, char left, char right) {
-		if (temp.value == root) {
-			temp.left = (left == '.' ? null : new Node(left,null,null));
-			temp.right = (right == '.' ? null : new Node(right,null,null)); 
-		}
-		else {
-			if(temp.left != null) insertNode(temp.left, root, left, right);
-			if(temp.right != null) insertNode(temp.right, root, left, right);
-		}
-	}
-	
-	public static void preOrder(Node node) {
-		if(node ==null) return;
-		sb.append(node.value);
-		preOrder(node.left);
-		preOrder(node.right);
-	}
-	
-	public static void inOrder(Node node) {
-		if(node ==null) return;
-		inOrder(node.left);
-		sb.append(node.value);
-		inOrder(node.right);
-	}
-	
-	public static void postOrder(Node node) {
-		if(node ==null) return;
-		postOrder(node.left);
-		postOrder(node.right);
-		sb.append(node.value);
-	}
-
 }
