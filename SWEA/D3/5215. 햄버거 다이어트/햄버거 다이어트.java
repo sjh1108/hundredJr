@@ -5,30 +5,21 @@ import java.util.StringTokenizer;
 
 public class Solution {
     private static int N, L;
-
     private static int max;
 
     private static int[][] food;
 
-    private static void dfs(int start, boolean[] visited){
-        visited[start] = true;
+    private static void dfs(int start, int tasteSum, int calSum){
+        if(L < calSum) return;
 
-        int sumTastes = 0;
-        int sumCalories = 0;
-        for(int i = 0; i < N; i++){
-            if(visited[i]){
-                sumTastes += food[i][0];
-                sumCalories += food[i][1];
-            }
+        max = Math.max(tasteSum, max);
+
+        if(start == N){
+            return;
         }
 
-        if(L < sumCalories) return;
-        max = Math.max(sumTastes, max);
-
-        for(int i = start+1; i < N; i++){
-            dfs(i, visited);
-            visited[i] = false;
-        }
+        dfs(start+1, tasteSum + food[start][0], calSum + food[start][1]);
+        dfs(start+1, tasteSum, calSum);
     }
 
     public static void main(String[] args) throws IOException {
@@ -52,9 +43,7 @@ public class Solution {
             }
 
             max = 0;
-            for(int i = 0; i < N; i++){
-                dfs(i, new boolean[N]);
-            }
+            dfs(0, 0, 0);
 
             sb.append(max);
             sb.append('\n');
