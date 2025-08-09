@@ -1,9 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -50,22 +46,25 @@ public class Main {
             for(int i = 1; i <= N; i++){
                 if(visited[i]) continue;
 
-                if(list.get(i).size() == 0){
+                List<Integer> currentList = list.get(i);
+                int size = currentList.size();
+                if(size == 0){
                     visited[i] = true;
                     line[cnt++] = i;
                     continue;
                 }
 
-                if(list.get(i).size() == 1){
-                    if(visited[list.get(i).get(0)]){
+                if(size == 1){
+                    if(visited[currentList.get(0)]){
                         line[cnt++] = i;
                         visited[i] = true;
-                        list.get(i).remove(0);
+                        currentList.remove(0);
                     }
                 } else{
-                    for(int j = 0; j < list.get(i).size(); j++){
-                        if(visited[list.get(i).get(j)]){
-                            list.get(i).remove(j--);
+                    for(int j = 0; j < size; j++){
+                        if(visited[currentList.get(j)]){
+                            currentList.remove(j--);
+                            --size;
                         }
                     }
                 }
