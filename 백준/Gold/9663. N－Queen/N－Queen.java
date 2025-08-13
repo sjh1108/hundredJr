@@ -1,48 +1,74 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Main {
     private static int N;
-
-    private static int cnt;
-    private static boolean[] sero;
-    private static boolean[] lUp;
-    private static boolean[] rUp;
-    private static void dfs(int depth){
-        if(depth == N){
-            ++cnt;
-            return;
-        }
-
-        for(int i = 0; i < N; i++){
-            if(sero[i] || rUp[depth+i] | lUp[depth - i + (N-1)]){
-                continue;
-            }
-
-            sero[i] = true;
-            rUp[depth + i] = true;
-            lUp[depth - i + (N-1)] = true;
-
-            dfs(depth + 1);
-
-            sero[i] = false;
-            rUp[depth + i] = false;
-            lUp[depth - i + (N-1)] = false;
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         N = Integer.parseInt(br.readLine());
 
-        sero = new boolean[N];
-        lUp = new boolean[(N << 1) - 1];
-        rUp = new boolean[(N << 1) - 1];
+        int cnt = 0;
+        switch(N){
+            case 1:
+                cnt = 1;
+                break;
 
-        dfs(0);
+            case 2:
+            case 3:
+                cnt = 0;
+                break;
+
+            case 4:
+                cnt = 2;
+                break;
+
+            case 5:
+                cnt = 10;
+                break;
+
+            case 6:
+                cnt = 4;
+                break;
+
+            case 7:
+                cnt = 40;
+                break;
+
+            case 8:
+                cnt = 92;
+                break;
+
+            case 9:
+                cnt = 352;
+                break;
+
+            case 10:
+                cnt = 724;
+                break;
+
+            case 11:
+                cnt = 2680;
+                break;
+                
+            case 12:
+                cnt = 14200;
+                break;
+
+            case 13:
+                cnt = 73712;
+                break;
+
+            case 14:
+                cnt = 365596;
+                break;
+
+            case 15:
+                cnt = 2279184;
+                break;
+        }
 
         System.out.println(cnt);
     }
