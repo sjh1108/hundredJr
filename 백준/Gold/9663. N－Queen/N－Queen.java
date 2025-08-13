@@ -1,87 +1,49 @@
-//import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static int N;
 
-    static int N;
-    static int M;
-    static int[][] arr;
-    static boolean[][] visit;
-
-    public static void main(String[] args) throws IOException{
-        N = Integer.parseInt(br.readLine());
-
-        visit = new boolean[N][N];
-        M = 0;
+    private static int cnt;
+    private static boolean[] sero;
+    private static boolean[] lUp;
+    private static boolean[] rUp;
+    private static void dfs(int depth){
+        if(depth == N){
+            ++cnt;
+            return;
+        }
 
         for(int i = 0; i < N; i++){
-            DFS(0, i);
-        }
+            if(sero[i] || rUp[depth+i] | lUp[depth - i + (N-1)]){
+                continue;
+            }
 
-        System.out.println(M);
+            sero[i] = true;
+            rUp[depth + i] = true;
+            lUp[depth - i + (N-1)] = true;
+
+            dfs(depth + 1);
+
+            sero[i] = false;
+            rUp[depth + i] = false;
+            lUp[depth - i + (N-1)] = false;
+        }
     }
 
-    static void DFS(int x, int y){
-        visit[x][y] = true;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        if(sero(x, y)){
-            visit[x][y] = false;
-            return;
-        } else if(lup(x, y)){
-            visit[x][y] = false;
-            return;
-        } else if(rup(x, y)){
-            visit[x][y] = false;
-            return;
-        }
-        
-        else{
-            if(x + 1 < N){
-                for(int i = 0; i < N; i++){
-                    if(i == y) continue;
-                    DFS(x + 1, i);
-                }
-            } else{
-                M++;
-            }
-        }
+        N = Integer.parseInt(br.readLine());
 
-        visit[x][y] = false;
+        sero = new boolean[N];
+        lUp = new boolean[(N << 1) - 1];
+        rUp = new boolean[(N << 1) - 1];
 
-        return;
-    }
-    static boolean sero(int x, int y){
+        dfs(0);
 
-        for(int i = 1; i <= x; i++){
-            if(visit[x - i][y]){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    static boolean lup(int x, int y){
-
-        for(int i = 1; i <= x && i <= y; i++){
-            if(visit[x - i][y - i]){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    static boolean rup(int x, int y){
-
-        for(int i = 1; i <= x && i + y < N; i++){
-            if(visit[x - i][y + i]){
-                return true;
-            }
-        }
-
-        return false;
+        System.out.println(cnt);
     }
 }
