@@ -17,12 +17,11 @@ public class Main{
             boolean[] visited = new boolean[N*2];
 
             StringTokenizer st = new StringTokenizer(br.readLine());
-            for(int i = 0; i < N*2; i++)
+            for(int i = 0; i < N*2; i++){
                 price[i] = Integer.parseInt(st.nextToken());
-
+            }
+            
             int cnt = 0;
-
-
             for(int i = 0; i < N*2; i++){
                 if(cnt == N) break;
 
