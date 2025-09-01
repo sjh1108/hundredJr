@@ -1,68 +1,65 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+//import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
 
-    static int N;
-    static int M;
-    static long K;
-    
-    static int bcnt, wcnt;
+	private static int[][] map;
+	
+	private static int cntA, cntB;
+	private static boolean check(int x, int y, int size) {
+		int init = map[x][y];
+		
+		for(int i = x; i < x + size; i++) {
+			for(int j = y; j < y + size; j++) {
+				if(init != map[i][j]) return false;
+			}
+		}
+		
+		return true;
+	}
+	private static void solve(int x, int y, int size) {
+		if(check(x, y, size)) {
+			if(map[x][y] == 0) {
+				cntA++;
+			} else {
+				cntB++;
+			}
+			
+			return;
+		}
 
-    static int[][] dp;
+		size /= 2;
+		
+		solve(x, y, size);
+		solve(x + size, y, size);
+		solve(x, y + size, size);
+		solve(x + size, y + size, size);
+	}
+	public static void main(String[] args) throws IOException{
+//		System.setIn(new FileInputStream("Test2.txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int N = Integer.parseInt(br.readLine());
+		
+		// input
+		cntA = 0; cntB = 0;
+		map = new int[N][N];
+		for(int i = 0; i < N; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			for(int j = 0; j < N; j++) {				
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		// divide & conquer
+		solve(0, 0, N);
+		
+		// output
+		System.out.println(cntA);
+		System.out.println(cntB);
+	}
 
-    public static void main(String[] args) throws IOException{
-        N = Integer.parseInt(br.readLine());
-
-        dp = new int[N][N];
-
-        for(int i = 0; i < N; i++){
-            st = new StringTokenizer(br.readLine());
-
-            for(int j = 0; j < N; j++){
-                dp[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
-
-        countBlock(0, 0, N);
-
-        System.out.println(wcnt);
-        System.out.println(bcnt);
-    }
-
-
-    static boolean checkBlock(int row, int col, int size){
-        int tmp = dp[row][col];
-
-        for(int i = row; i < row + size; i++){
-            for(int j = col; j < col + size; j++){
-                if(dp[i][j] != tmp) return false;
-            }
-        }
-
-        return true;
-    }
-
-    static void countBlock(int row, int col, int size){
-
-        if(checkBlock(row, col, size)){
-            if(dp[row][col] == 1){
-                bcnt = bcnt + 1;
-            } else{
-                wcnt = wcnt + 1;
-            }
-
-            return; 
-        }
-
-        size /= 2;
-
-        countBlock(row, col, size);
-        countBlock(row + size, col, size);
-        countBlock(row, col + size, size);
-        countBlock(row + size, col + size, size);
-    }
 }
