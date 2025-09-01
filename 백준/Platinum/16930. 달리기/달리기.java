@@ -48,8 +48,8 @@ public class Main {
 						
 						if(!isIn(nx, ny) || map[nx][ny] == 1) break;
 						// if(dist[nx][ny]) continue;
-                        if(dist[nx][ny] != -1 && dist[nx][ny] < time) break;
-                        if(dist[nx][ny] != -1 && dist[nx][ny] == time) continue;
+                        if(dist[nx][ny] < time) break;
+                        if(dist[nx][ny] == time) continue;
 //						System.out.println(nx + " : " + ny);
 						
 						if(nx == ex && ny == ey) {
@@ -80,7 +80,7 @@ public class Main {
 		dist = new int[N][M];
 		for(int i = 0; i < N; i++) {
 			String str = br.readLine();
-            Arrays.fill(dist[i], -1);
+            Arrays.fill(dist[i], Integer.MAX_VALUE);
 			for(int j = 0; j < M; j++) {
 				map[i][j] = str.charAt(j) == '.' ? 0 : 1;
 			}
