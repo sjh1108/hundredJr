@@ -229,6 +229,7 @@
 |6887. Squares|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6887.%E2%80%85Squares/README.md)|
 |6888. Terms of Office|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6888.%E2%80%85Terms%E2%80%85of%E2%80%85Office/README.md)|
 |7567. 그릇|[링크](./%EB%B0%B1%EC%A4%80/Bronze/7567.%E2%80%85%EA%B7%B8%EB%A6%87/README.md)|
+|7572. 간지（干支）|[링크](./%EB%B0%B1%EC%A4%80/Bronze/7572.%E2%80%85%EA%B0%84%EC%A7%80%EF%BC%88%E5%B9%B2%E6%94%AF%EF%BC%89/README.md)|
 |7891. Can you add this？|[링크](./%EB%B0%B1%EC%A4%80/Bronze/7891.%E2%80%85Can%E2%80%85you%E2%80%85add%E2%80%85this%EF%BC%9F/README.md)|
 |8370. Plane|[링크](./%EB%B0%B1%EC%A4%80/Bronze/8370.%E2%80%85Plane/Plane.java)|
 |8437. Julka|[링크](./%EB%B0%B1%EC%A4%80/Bronze/8437.%E2%80%85Julka/README.md)|
