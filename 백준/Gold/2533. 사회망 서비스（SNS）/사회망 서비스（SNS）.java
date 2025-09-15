@@ -1,8 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-class Main {
-    static HashMap<Integer, List<Integer>> map;
+public class Main {
+    static List<Integer>[] graph;
     static int[][] dp;
     static boolean[] visited;
 
@@ -10,37 +10,36 @@ class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        map = new HashMap<>();
-        for (int i = 0; i < N; i++) {
-            map.put(i, new ArrayList<>());
+        graph = new ArrayList[N + 1];
+        for (int i = 1; i <= N; i++) {
+            graph[i] = new ArrayList<>();
         }
 
-        StringTokenizer st;
         for (int i = 0; i < N - 1; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken()) - 1;
-            int b = Integer.parseInt(st.nextToken()) - 1;
-            map.get(a).add(b);
-            map.get(b).add(a);
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            graph[u].add(v);
+            graph[v].add(u);
         }
 
-        dp = new int[N][2];
-        visited = new boolean[N];
+        dp = new int[N + 1][2];
+        visited = new boolean[N + 1];
 
-        dfs(0); // 0번 노드를 root로 DFS 수행
+        dfs(1);
 
-        System.out.println(Math.min(dp[0][0], dp[0][1]));
+        System.out.println(Math.min(dp[1][0], dp[1][1]));
     }
 
     static void dfs(int node) {
         visited[node] = true;
-        dp[node][0] = 0; // node가 얼리어답터 아님
+        dp[node][0] = 0; // node가 얼리어답터가 아님
         dp[node][1] = 1; // node가 얼리어답터임
 
-        for (int nxt : map.get(node)) {
+        for (int nxt : graph[node]) {
             if (!visited[nxt]) {
                 dfs(nxt);
-                dp[node][0] += dp[nxt][1];
+                dp[node][0] += dp[nxt][1]; 
                 dp[node][1] += Math.min(dp[nxt][0], dp[nxt][1]);
             }
         }
