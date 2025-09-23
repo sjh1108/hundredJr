@@ -388,6 +388,7 @@
 |2887. 행성 터널|[링크](./%EB%B0%B1%EC%A4%80/Platinum/2887.%E2%80%85%ED%96%89%EC%84%B1%E2%80%85%ED%84%B0%EB%84%90/README.md)|
 |3015. 오아시스 재결합|[링크](./%EB%B0%B1%EC%A4%80/Platinum/3015.%E2%80%85%EC%98%A4%EC%95%84%EC%8B%9C%EC%8A%A4%E2%80%85%EC%9E%AC%EA%B2%B0%ED%95%A9/README.md)|
 |6549. 히스토그램에서 가장 큰 직사각형|[링크](./%EB%B0%B1%EC%A4%80/Platinum/6549.%E2%80%85%ED%9E%88%EC%8A%A4%ED%86%A0%EA%B7%B8%EB%9E%A8%EC%97%90%EC%84%9C%E2%80%85%EA%B0%80%EC%9E%A5%E2%80%85%ED%81%B0%E2%80%85%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95/README.md)|
+|9202. Boggle|[링크](./%EB%B0%B1%EC%A4%80/Platinum/9202.%E2%80%85Boggle/README.md)|
 ### 🚀 Silver
 | 문제번호 | 링크 |
 | ----- | ----- |
