@@ -58,9 +58,9 @@ def main():
 
     print(f"✅ Found {len(found_problems_set)} problem folders in the file system.")
 
-    # 3. 새로운 문제가 있는지 비교
-    if not found_problems_set.issubset(linked_problems):
-        print("🚀 New problems detected! Regenerating README.md...")
+    # 3. 문제 목록에 변경이 있는지 비교 (추가, 삭제 모두 감지)
+    if found_problems_set != linked_problems:
+        print("🚀 Problem list has changed! Regenerating README.md...")
 
         # README 내용 새로 생성
         new_content = HEADER
@@ -82,25 +82,4 @@ def main():
             new_content += "| 문제번호 | 링크 |\n"
             new_content += "| ----- | ----- |\n"
             
-            # 문제 ID를 기준으로 정렬 (숫자 > 문자 순)
-            sorted_problems = sorted(
-                problems_by_platform[platform], 
-                key=lambda x: (0, int(x['id'])) if x['id'].isdigit() else (1, x['id'])
-            )
-            
-            for prob in sorted_problems:
-                # Windows 경로(\)를 URL 친화적인 /로 변경
-                file_path = prob['path'].replace("\\", "/")
-                new_content += "|{}|[링크]({})|\n".format(prob['id'], parse.quote(file_path))
-            new_content += "\n" # 플랫폼 간 간격 추가
-        
-        # 4. 변경된 내용으로 README.md 파일 쓰기
-        with open("README.md", "w", encoding="utf-8") as fd:
-            fd.write(new_content)
-        print("✨ README.md has been successfully updated.")
-
-    else:
-        print("👍 No new problems found. README.md is already up-to-date.")
-
-if __name__ == "__main__":
-    main()
+            # 문제 ID를 기준으로 정렬 (숫자 > 문자 순
