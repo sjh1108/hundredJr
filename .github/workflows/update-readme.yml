@@ -24,12 +24,10 @@ jobs: # 실제 실행될 내용
     - name: Run update.py # 2) update.py 실행
       run: |
         python update.py
-    - name: Commit changes # 3) 추가된 파일 commit
-      run: |
-        git config --global user.name 'sjh1108' # 유저명
-        git config --global user.email 'ch6854@naver.com' # 유저 이메일
-        git add -A
-        git commit -am "auto update README.md" # 커밋 메시지
-    - name: Push changes # 4) 메인에 푸시
-      run: |
-        git push
+    - name: Commit changes # 3) 변경점이 있다면 README.md 파일을 커밋/푸시
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "docs: auto update README.md" # 커밋 메시지
+        commit_user_name: sjh1108 # GitHub 사용자 이름
+        commit_user_email: ch6854@naver.com # GitHub 사용자 이메일
+        commit_author: sjh1108 <ch6854@naver.com> # 커밋 작성자 정보
