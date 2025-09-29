@@ -1,38 +1,41 @@
-# 이 워크플로우는 update.py 파일을 실행합니다. 즉 README.md 파일을 업데이트합니다.
+# 이 워크플로우는 update.py 파일을 실행하여 README.md 파일을 업데이트합니다.
 permissions:
   contents: write
-name: Update readme # GitHub Actions 탭에서 확인할 수 있는 액션 이름
+
+name: Update README # GitHub Actions 탭에서 확인할 수 있는 액션 이름
 
 on: # jobs가 실행되어야 하는 상황 정의
   push:
     branches: [ "main" ] # main 브랜치에 push가 발생했을 때
   pull_request:
+    branches: [ "main" ]
 
 jobs: # 실제 실행될 내용
   build:
     runs-on: ubuntu-latest # 빌드 환경
     steps:
-    - uses: actions/checkout@v3 # checkout
-    - name: Set up Python 3.10 
-      uses: actions/setup-python@v3 # setup-python
+    - name: Checkout repository
+      uses: actions/checkout@v4 # 1. 코드 체크아웃 (v4로 버전 업데이트)
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5 # 2. 파이썬 설치 (v5로 버전 업데이트)
       with:
-        python-version: "3.10" # 3.10버전 파이썬 사용
-    - name: Install dependencies # 1) 스크립트에 필요한 dependency 설치
-      run: |
+        python-version: "3.10" # 3.10 버전 파이썬 사용
+
+    - name: Install dependencies
+      run: | # 3. 스크립트에 필요한 dependency 설치
         python -m pip install --upgrade pip
-        pip install python-leetcode 
-    - name: Run update.py # 2) update.py 실행
-      run: |
+        pip install python-leetcode
+
+    - name: Run update.py to generate README
+      run: | # 4. update.py 실행
         python update.py
-    - name: Commit and Push if changed # 3) 변경사항이 있을 경우에만 커밋 및 푸시
-      run: |
-        git config --global user.name 'sjh1108'
-        git config --global user.email 'ch6854@naver.com'
-        # git diff --quiet를 통해 README.md 파일의 변경사항을 확인
-        if ! git diff --queit README.md; then
-          echo "README.md has been updated. Commiting changes."
-          git commit -m "docs: solved problem list auto-update"
-          git push
-        else
-          echo "No changes deleted in README.md. Skipping commit."
-        fi
+
+    - name: Commit and push if README.md has changed
+      uses: stefanzweifel/git-auto-commit-action@v5 # 5. 변경사항이 있으면 자동으로 커밋 & 푸시
+      with:
+        commit_message: "docs: auto update README.md" # 커밋 메시지
+        commit_user_name: sjh1108 # Git 유저명
+        commit_user_email: ch6854@naver.com # Git 이메일
+        # commit_author는 생략해도 commit_user_name과 email을 기반으로 설정됩니다.
+        file_pattern: README.md # README.md 파일만 감시하도록 설정 (선택사항)
