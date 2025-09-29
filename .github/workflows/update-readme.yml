@@ -28,8 +28,12 @@ jobs: # 실제 실행될 내용
       run: |
         git config --global user.name 'sjh1108' # 유저명
         git config --global user.email 'ch6854@naver.com' # 유저 이메일
-        git add -A
-        git commit -am "auto update README.md" # 커밋 메시지
-    - name: Push changes # 4) 메인에 푸시
-      run: |
-        git push
+        # git diff --quiet를 통해 README.md 파일의 변경사항을 확인
+        if ! git diff --quiet README.md; then
+          echo "README.md has been updated. Committing changes."
+          git add README.md
+          git commit -m "docs: solved problem list auto-update"
+          git push
+        else
+          echo "No changes detected in README.md. Skipping commit."
+        fi
