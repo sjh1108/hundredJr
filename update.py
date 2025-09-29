@@ -1,35 +1,56 @@
-# 이 워크플로우는 update.py 파일을 실행합니다. 즉 README.md 파일을 업데이트합니다.
-permissions:
-  contents: write
-name: Update readme # GitHub Actions 탭에서 확인할 수 있는 액션 이름
+#!/usr/bin/env python
 
-on: # jobs가 실행되어야 하는 상황 정의
-  push:
-    branches: [ "main" ] # main 브랜치에 push가 발생했을 때
-  pull_request:
+import os
+from urllib import parse
 
-jobs: # 실제 실행될 내용
-  build:
-    runs-on: ubuntu-latest # 빌드 환경
-    steps:
-    - uses: actions/checkout@v3 # checkout
-    - name: Set up Python 3.10 
-      uses: actions/setup-python@v3 # setup-python
-      with:
-        python-version: "3.10" # 3.10버전 파이썬 사용
-    - name: Install dependencies # 1) 스크립트에 필요한 dependency 설치
-      run: |
-        python -m pip install --upgrade pip
-        pip install python-leetcode 
-    - name: Run update.py # 2) update.py 실행
-      run: |
-        python update.py
-    - name: Commit changes # 3) 추가된 파일 commit
-      run: |
-        git config --global user.name 'sjh1108' # 유저명
-        git config --global user.email 'ch6854@naver.com' # 유저 이메일
-        git add -A
-        git commit -am "auto update README.md" # 커밋 메시지
-    - name: Push changes # 4) 메인에 푸시
-      run: |
-        git push
+HEADER = """# 
+# 백준 & 프로그래머스 & SWEA 문제 풀이 목록
+
+프로그래머스의 경우, 푼 문제 목록에 대한 마이그레이션이 필요합니다.
+
+"""
+
+def main():
+    content = HEADER
+    directories = []
+    solveds = []
+
+    for root, dirs, files in os.walk("."):
+        dirs.sort()
+        if root == '.':
+            for dir in ('.git', '.github'):
+                try:
+                    dirs.remove(dir)
+                except ValueError:
+                    pass
+            continue
+
+        category = os.path.basename(root)
+        directory = os.path.basename(os.path.dirname(root))
+        
+        # 특정 폴더는 건너뜀
+        if category == 'images' or directory == '.':
+            continue
+            
+        # 메인 디렉토리 섹션 헤더 추가
+        if directory not in directories:
+            if directory in ["백준", "프로그래머스", "SWEA"]:
+                content += "## 📚 {}\n".format(directory)
+            else:
+                content += "### 🚀 {}\n".format(directory)
+                content += "| 문제번호 | 링크 |\n"
+                content += "| ----- | ----- |\n"
+            directories.append(directory)
+
+        # 각 파일에 대해 문제 번호가 중복되지 않으면 출력
+        for file in files:
+            if category not in solveds:
+                file_path = os.path.join(root, file)
+                content += "|{}|[링크]({})|\n".format(category, parse.quote(file_path))
+                solveds.append(category)
+
+    with open("README.md", "w") as fd:
+        fd.write(content)
+        
+if __name__ == "__main__":
+    main()
