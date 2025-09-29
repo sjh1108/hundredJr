@@ -1,2 +1,1 @@
-n=float(input())/4
-print(f'{n:.2f}')
+print(f'{float(input())/4:.2f}')
