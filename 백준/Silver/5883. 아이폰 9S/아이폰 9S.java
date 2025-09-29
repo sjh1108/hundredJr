@@ -17,7 +17,6 @@ public class Main {
 		}
 		int ans = 1;
 		for(int k: set) {
-			//System.out.println(k);
 			int cnt=1;
 			int pre=arr[0];
 			for(int i=1; i<N; i++) {
