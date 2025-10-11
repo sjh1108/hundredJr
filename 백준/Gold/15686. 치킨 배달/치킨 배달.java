@@ -1,77 +1,77 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    static int N, M;
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-    static class Point{
-        int x, y;
+        int[][] map = new int[N][N];
 
-        Point(int x, int y){
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    static int[][] map;
-    static ArrayList<Point> chicken = new ArrayList<>();
-    static ArrayList<Point> house = new ArrayList<>();
-
-    static boolean[] visited;
-    static int ans = Integer.MAX_VALUE;
-    
-    public static void main(String[] args) throws IOException{
-        st = new StringTokenizer(br.readLine());
-
-        N = Integer.parseInt(st.nextToken()); M = Integer.parseInt(st.nextToken());
-
-        map = new int[N][N];
-
+        List<int[]> houseList = new ArrayList<>();
+        List<int[]> chickenList = new ArrayList<>();
+        
         for(int i = 0; i < N; i++){
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j < N; j++){
-                map[i][j] = Integer.parseInt(st.nextToken());
+                int input = Integer.parseInt(st.nextToken());
+                map[i][j] = input;
 
-                if(map[i][j] == 1) house.add(new Point(i, j));
-                else if(map[i][j] == 2) chicken.add(new Point(i, j));
+                if(input == 1){
+                    houseList.add(new int[]{i, j});
+                } else if(input == 2){
+                    chickenList.add(new int[]{i, j});
+                }
             }
         }
 
-        visited = new boolean[chicken.size()];
-        dfs(0, 0);
+        int house = houseList.size();
+        int chicken = chickenList.size();
 
-        System.out.println(ans);
-    }
+        int[][] dist = new int[house][chicken];
+        for(int i = 0; i < house; i++){
+            int[] h = houseList.get(i);
+            for(int j = 0; j < chicken; j++){
+                int[] c = chickenList.get(j);
 
-    static void dfs(int start, int cnt){
-        if(cnt == M){
+                int d = Math.abs(h[0] - c[0]) + Math.abs(h[1] - c[1]);
+
+                dist[i][j] = d;
+            }
+        }
+
+        int INF = 1_000_000_000;
+        int min = INF;
+
+        for(int bit = 1; bit < (1 << chicken); bit++){
+            int count = 0;
+            int b = bit;
+            while(b > 0){
+                count += b % 2;
+                b /= 2;
+            }
+            if(count > M) continue;
+
             int sum = 0;
 
-            for(int i = 0; i < house.size(); i++){
-                int min = Integer.MAX_VALUE;
+            for(int h = 0; h < house; h++){
+                int d = INF;
 
-                for(int j = 0; j < chicken.size(); j++){
-                    if(visited[j]){
-                        int dist = Math.abs(house.get(i).x - chicken.get(j).x) + Math.abs(house.get(i).y - chicken.get(j).y);
-                        min = Math.min(min, dist);
+                for(int c = 0; c < chicken; c++){
+                    if((bit & (1 << c)) != 0){ 
+                        d = Math.min(d, dist[h][c]);
                     }
                 }
 
-                sum += min;
+                sum += d;
             }
 
-            ans = Math.min(ans, sum);
-            return;
+            min = Math.min(min, sum);
         }
 
-        for(int i = start; i < chicken.size(); i++){
-            visited[i] = true;
-            dfs(i + 1, cnt + 1);
-            visited[i] = false;
-        }
+        System.out.println(min);
     }
 }
