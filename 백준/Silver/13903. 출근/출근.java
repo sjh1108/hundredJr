@@ -59,7 +59,7 @@ class Main {
                     int ny = y + cmd[1];
 
                     if(!isIn(nx, ny)) continue;
-                    if(map[nx][ny] == 0) continue;
+                    if(map[nx][ny] == 0 || visited[nx][ny]) continue;
 
                     q.add(new int[]{nx, ny});
                 }
