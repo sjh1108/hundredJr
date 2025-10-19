@@ -394,6 +394,7 @@
 ### 🚀 Platinum
 | 문제번호 | 링크 |
 | ----- | ----- |
+|11438. LCA 2|[링크](./%EB%B0%B1%EC%A4%80/Platinum/11438.%E2%80%85LCA%E2%80%852/README.md)|
 |14003. 가장 긴 증가하는 부분 수열 5|[링크](./%EB%B0%B1%EC%A4%80/Platinum/14003.%E2%80%85%EA%B0%80%EC%9E%A5%E2%80%85%EA%B8%B4%E2%80%85%EC%A6%9D%EA%B0%80%ED%95%98%EB%8A%94%E2%80%85%EB%B6%80%EB%B6%84%E2%80%85%EC%88%98%EC%97%B4%E2%80%855/README.md)|
 |16566. 카드 게임|[링크](./%EB%B0%B1%EC%A4%80/Platinum/16566.%E2%80%85%EC%B9%B4%EB%93%9C%E2%80%85%EA%B2%8C%EC%9E%84/README.md)|
 |16930. 달리기|[링크](./%EB%B0%B1%EC%A4%80/Platinum/16930.%E2%80%85%EB%8B%AC%EB%A6%AC%EA%B8%B0/%EB%8B%AC%EB%A6%AC%EA%B8%B0.java)|
