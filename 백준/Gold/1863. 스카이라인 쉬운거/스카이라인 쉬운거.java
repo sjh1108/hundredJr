@@ -1,49 +1,79 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.IOException; // System.in.read()를 위해 필요
 
 class Main {
+    static int N, answer;
+	static int[] stack;
+	static int top;
+    
+    // --- Fast I/O (커스텀 입력 메소드) ---
+    static final int BUFFER_SIZE = 1 << 16; // 65536 바이트 (2^16)
+    static byte[] buffer = new byte[BUFFER_SIZE];
+    static int bufferPointer = 0, bytesRead = 0;
 
-    // static 변수들을 제거하고 main 내의 지역 변수로 모두 처리
-	
+    /**
+     * 버퍼가 비었을 때 System.in에서 바이트를 읽어와 채웁니다.
+     */
+    static void fillBuffer() throws IOException {
+        bytesRead = System.in.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+        if (bytesRead == -1) buffer[0] = -1; // EOF (End Of File)
+    }
+
+    /**
+     * 버퍼에서 1바이트를 읽습니다.
+     */
+    static byte read() throws IOException {
+        if (bufferPointer == bytesRead) fillBuffer();
+        return (bytesRead == -1) ? -1 : buffer[bufferPointer++];
+    }
+
+    /**
+     * System.in에서 공백으로 구분된 다음 정수(int)를 읽습니다.
+     * (음수도 처리 가능)
+     */
+    static int nextInt() throws IOException {
+        int ret = 0;
+        byte c = read();
+        
+        // 1. 공백 문자(스페이스, 엔터 등) 건너뛰기
+        while (c <= ' ') c = read();
+        
+        // 2. 부호(음수/양수) 확인
+        boolean neg = (c == '-');
+        if (neg) c = read();
+        
+        // 3. 숫자 읽기
+        do {
+            ret = ret * 10 + (c - '0');
+        } while ((c = read()) >= '0' && c <= '9');
+        
+        if (neg) return -ret;
+        return ret;
+    }
+    // --- End of Fast I/O ---
+
+
 	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // 제거
+		N = nextInt(); // 커스텀 메소드로 N 읽기
 		
-        // N도 main 내의 지역 변수로 선언
-        int N = Integer.parseInt(br.readLine());
-		
-        // answer와 top도 지역 변수로 선언
         int answer = 0;
-		int top = 0; // 스택의 현재 위치(인덱스)를 가리킴
+		int top = 0;
 
-        // 스택 배열도 지역 변수로 선언
-        // 스택의 바닥(stack[0])을 0으로 사용하기 위해 N+1 크기 할당
-		int[] stack = new int[N + 1]; 
+		stack = new int[N + 1]; 
 
 		for (int i = 0; i < N; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			st.nextToken(); // 첫 번째 토큰 (x좌표)은 무시
-			int num = Integer.parseInt(st.nextToken()); // 두 번째 토큰 (y좌표)
-			
-            // 스택의 top에 있는 높이가 현재 높이(num)보다 높으면
-            // 낮아질 때까지 pop (건물 종료)
+			// StringTokenizer st = new StringTokenizer(br.readLine()); // 제거
+			nextInt(); // x좌표 (첫 번째 숫자)를 읽고 버림
+			int num = nextInt(); // y좌표 (두 번째 숫자)를 읽음
+            
 			while (stack[top] > num) {
 				top--;
-				answer++; // pop할 때마다 완료된 건물로 카운트
+				answer++;
 			}
-
-			// 스택의 top이 현재 높이(num)보다 낮으면 push (새 건물 시작)
-            // (num이 0이고 stack[top]도 0이면 push되지 않음)
 			if (stack[top] < num) {
 				stack[++top] = num;
 			}
-            
-            // stack[top] == num 이면 아무것도 하지 않음 (건물 이어짐)
 		}
-        
-        // answer = 중간에 pop된 건물 수
-        // top = 마지막까지 스택에 남아있는 건물 수 (stack[0] 제외)
 		System.out.println(answer + top);
-
 	}
 }
