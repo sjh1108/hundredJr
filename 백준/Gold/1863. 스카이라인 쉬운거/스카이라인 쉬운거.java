@@ -1,41 +1,37 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int N, answer;
+	static int[] stack;
+	static int top;
 
-        int N = Integer.parseInt(br.readLine());
+	public static void main(String[] args) throws Exception {
+		// 입력 및 초기화
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N = Integer.parseInt(br.readLine());
+		int answer = 0; // 0을 미리 넣어두고 시
+		int top = 0; // 0이 들어있으니 top은 0번째 인덱스
 
-        int cnt = 0;
-        ArrayDeque<Integer> stack = new ArrayDeque<>();
-        
-        stack.push(0);
-        StringTokenizer st;
-        for(int i = 0; i < N; i++){
-            st = new StringTokenizer(br.readLine());
-            // int a = Integer.parseInt(st.nextToken());
-            st.nextToken();
-            int b = Integer.parseInt(st.nextToken());
+		stack = new int[N + 1]; // 들어갈 수 있는 최대 크기 N
 
-            int top = stack.peek();
+		// 입력 받으면서 정답 처리
+		for (int i = 0; i < N; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			st.nextToken();
+			int num = Integer.parseInt(st.nextToken());
+			// stack top이 num 보다 크면 뺀다.
+			while (stack[top] > num) {
+				top--;
+				answer++;
+			}
+			// top이 작으면 넣는다
+			if (stack[top] < num) {
+				stack[++top] = num;
+			}
+		}
+		System.out.println(answer + top);
 
-            while(b < top){
-                stack.pop();
-                top = stack.peek();
-                cnt++;
-            }
-            if(top < b){
-                stack.push(b);
-            }
-        }
-
-        while(!stack.isEmpty()){
-            stack.pop();
-            ++cnt;
-        }
-        --cnt;
-
-        System.out.println(cnt);
-    }
+	}
 }
