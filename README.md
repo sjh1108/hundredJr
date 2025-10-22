@@ -247,6 +247,7 @@
 |5598. 카이사르 암호|[링크](./%EB%B0%B1%EC%A4%80/Bronze/5598.%E2%80%85%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%E2%80%85%EC%95%94%ED%98%B8/README.md)|
 |6763. Speed fines are not fine！|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6763.%E2%80%85Speed%E2%80%85fines%E2%80%85are%E2%80%85not%E2%80%85fine%EF%BC%81/README.md)|
 |6764. Sounds fishy！|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6764.%E2%80%85Sounds%E2%80%85fishy%EF%BC%81/Sounds%E2%80%85fishy%EF%BC%81.java)|
+|6825. Body Mass Index|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6825.%E2%80%85Body%E2%80%85Mass%E2%80%85Index/README.md)|
 |6841. I Speak TXTMSG|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6841.%E2%80%85I%E2%80%85Speak%E2%80%85TXTMSG/README.md)|
 |6887. Squares|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6887.%E2%80%85Squares/Squares.py)|
 |6888. Terms of Office|[링크](./%EB%B0%B1%EC%A4%80/Bronze/6888.%E2%80%85Terms%E2%80%85of%E2%80%85Office/Terms%E2%80%85of%E2%80%85Office.java)|
