@@ -120,6 +120,7 @@
 |15829. Hashing|[링크](./%EB%B0%B1%EC%A4%80/Bronze/15829.%E2%80%85Hashing/Hashing.java)|
 |15874. Caesar Cipher|[링크](./%EB%B0%B1%EC%A4%80/Bronze/15874.%E2%80%85Caesar%E2%80%85Cipher/Caesar%E2%80%85Cipher.java)|
 |15963. CASIO|[링크](./%EB%B0%B1%EC%A4%80/Bronze/15963.%E2%80%85CASIO/README.md)|
+|16171. 나는 친구가 적다 （Small）|[링크](./%EB%B0%B1%EC%A4%80/Bronze/16171.%E2%80%85%EB%82%98%EB%8A%94%E2%80%85%EC%B9%9C%EA%B5%AC%EA%B0%80%E2%80%85%EC%A0%81%EB%8B%A4%E2%80%85%EF%BC%88Small%EF%BC%89/README.md)|
 |16204. 카드 뽑기|[링크](./%EB%B0%B1%EC%A4%80/Bronze/16204.%E2%80%85%EC%B9%B4%EB%93%9C%E2%80%85%EB%BD%91%EA%B8%B0/%EC%B9%B4%EB%93%9C%E2%80%85%EB%BD%91%EA%B8%B0.java)|
 |16486. 운동장 한 바퀴|[링크](./%EB%B0%B1%EC%A4%80/Bronze/16486.%E2%80%85%EC%9A%B4%EB%8F%99%EC%9E%A5%E2%80%85%ED%95%9C%E2%80%85%EB%B0%94%ED%80%B4/%EC%9A%B4%EB%8F%99%EC%9E%A5%E2%80%85%ED%95%9C%E2%80%85%EB%B0%94%ED%80%B4.java)|
 |16715. Inspiration|[링크](./%EB%B0%B1%EC%A4%80/Bronze/16715.%E2%80%85Inspiration/Inspiration.java)|
