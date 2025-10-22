@@ -1,42 +1,56 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
+public class Main {
+    static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer tokens;
+    static int N, Pnum;
+    static long[] peoples;
 
-        StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < N; i++){
-            st = new StringTokenizer(br.readLine());
-            
-            int t = Integer.parseInt(st.nextToken());
-            HashMap<Long, Integer> map = new HashMap<>();
+    public static void main(String[] args) {
+        try {
+            N = Integer.parseInt(input.readLine());
 
-            for(int j = 0; j < t; j++){
-                long soldier = Long.parseLong(st.nextToken());
+            for (int i = 0; i < N; i++) {
+                tokens = new StringTokenizer(input.readLine());
+                Pnum = Integer.parseInt(tokens.nextToken());
+                peoples = new long[Pnum];
 
-                map.put(soldier, map.getOrDefault(soldier, 0) + 1);
-            }
+                for (int j = 0; j < Pnum; j++) {
+                    peoples[j] = Long.parseLong(tokens.nextToken());
+                }
 
-            long army = -1;
-            for(long key: map.keySet()){
-                int cnt = map.get(key);
+                long findNum = 0;
+                int cnt = 0;
+                for (int j = 0; j < Pnum; j++) {
+                    if (cnt == 0) {
+                        findNum = peoples[j];
+                        cnt = 1;
+                    } else if (peoples[j] == findNum) {
+                        cnt++;
+                    } else {
+                        cnt--;
+                    }
+                }
 
-                if(cnt > (t/2)){
-                    army = key;
+                // 과반수인지 확인
+                int realCnt = 0;
+                for (int j = 0; j < Pnum; j++) {
+                    if (peoples[j] == findNum) {
+                        realCnt++;
+                    }
+                }
+
+                if (realCnt > Pnum / 2) {
+                    System.out.println(findNum);
+                } else {
+                    System.out.println("SYJKGW");
                 }
             }
-
-            if(army == -1){
-                sb.append("SYJKGW");
-            } else{
-                sb.append(army);
-            }
-            sb.append('\n');
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("입력 오류 발생: " + e.getMessage());
         }
-
-        System.out.println(sb);
     }
 }
