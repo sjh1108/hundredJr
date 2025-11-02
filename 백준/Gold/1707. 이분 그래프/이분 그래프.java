@@ -1,41 +1,18 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
-
-    static int N, M, K;
-    static int[] colors;
-    static List<List<Integer>> graph;
-
-    static boolean bfs(int start, int color){
-        Queue<Integer> q = new LinkedList<>();
-        q.add(start);
-
-        colors[start] = color;
-        while(!q.isEmpty()){
-            int cur = q.poll();
-
-            for(int next : graph.get(cur)){
-                if(colors[next] == colors[cur]){
-                    return false;
-                }
-
-                if(colors[next] == 0){
-                    colors[next] = -colors[cur];
-                    q.add(next);
-                }
-            }
-        }
-
-        return true;
-    }
+class Main{
+    private static int N, M;
+    private static int[] colors;
+    private static List<List<Integer>> graph;
 
     public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         int T = Integer.parseInt(br.readLine());
 
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
         while(T-- > 0){
             st = new StringTokenizer(br.readLine());
 
@@ -74,5 +51,28 @@ public class Main{
         }
 
         System.out.println(sb);
+    }
+
+    static boolean bfs(int start, int color){
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+
+        colors[start] = color;
+        while(!q.isEmpty()){
+            int cur = q.poll();
+
+            for(int next : graph.get(cur)){
+                if(colors[next] == colors[cur]){
+                    return false;
+                }
+
+                if(colors[next] == 0){
+                    colors[next] = -colors[cur];
+                    q.add(next);
+                }
+            }
+        }
+
+        return true;
     }
 }
