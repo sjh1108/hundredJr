@@ -240,6 +240,7 @@
 |32290. MEX vs OR|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32290.%E2%80%85MEX%E2%80%85vs%E2%80%85OR/README.md)|
 |32326. Conveyor Belt Sushi|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32326.%E2%80%85Conveyor%E2%80%85Belt%E2%80%85Sushi/Conveyor%E2%80%85Belt%E2%80%85Sushi.py)|
 |32458. Just Round Down|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32458.%E2%80%85Just%E2%80%85Round%E2%80%85Down/Just%E2%80%85Round%E2%80%85Down.py)|
+|32498. Call for Problems|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32498.%E2%80%85Call%E2%80%85for%E2%80%85Problems/Call%E2%80%85for%E2%80%85Problems.py)|
 |32775. 가희와 4시간의 벽 1|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32775.%E2%80%85%EA%B0%80%ED%9D%AC%EC%99%80%E2%80%854%EC%8B%9C%EA%B0%84%EC%9D%98%E2%80%85%EB%B2%BD%E2%80%851/README.md)|
 |32776. 가희와 4시간의 벽 2|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32776.%E2%80%85%EA%B0%80%ED%9D%AC%EC%99%80%E2%80%854%EC%8B%9C%EA%B0%84%EC%9D%98%E2%80%85%EB%B2%BD%E2%80%852/README.md)|
 |32866. 코인의 신 건모|[링크](./%EB%B0%B1%EC%A4%80/Bronze/32866.%E2%80%85%EC%BD%94%EC%9D%B8%EC%9D%98%E2%80%85%EC%8B%A0%E2%80%85%EA%B1%B4%EB%AA%A8/README.md)|
