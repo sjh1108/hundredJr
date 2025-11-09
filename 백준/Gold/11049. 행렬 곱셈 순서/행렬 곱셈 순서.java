@@ -7,7 +7,6 @@ public class Main{
     static StringTokenizer st;
 
     static int N, M;
-    static final int INF = 1000000000;
 
     public static void main(String[] args) throws IOException{
         N = Integer.parseInt(br.readLine());
@@ -25,7 +24,7 @@ public class Main{
         for(int i = 1; i < N; i++){
             for(int j = 1; j <= N - i; j++){
                 int k = i + j;
-                dp[j][k] = INF;
+                dp[j][k] = Integer.MAX_VALUE;
 
                 for(int l = j; l < k; l++){
                     dp[j][k] = Math.min(dp[j][k], dp[j][l] + dp[l + 1][k] + mat[j][0] * mat[l][1] * mat[k][1]);
