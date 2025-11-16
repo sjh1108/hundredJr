@@ -53,12 +53,15 @@ public class Main{
             commands.add(new Command(x, y, cost));
         }
 
-        Queue<int[]> q = new ArrayDeque<>();
+        Queue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(o -> map.get(arrayToString(o))));
         q.add(original);
 
         while(!q.isEmpty()){
             int[] cur = q.poll();
 
+            if(arrayToString(cur).equals(arrayToString(answer))){
+                break;
+            }
             for(Command cmd: commands){
                 int[] nxt = cmd.execute(cur.clone());
 
