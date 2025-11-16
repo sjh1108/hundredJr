@@ -256,6 +256,7 @@
 |34217. 찾아오시는 길|[링크](./%EB%B0%B1%EC%A4%80/Bronze/34217.%E2%80%85%EC%B0%BE%EC%95%84%EC%98%A4%EC%8B%9C%EB%8A%94%E2%80%85%EA%B8%B8/%EC%B0%BE%EC%95%84%EC%98%A4%EC%8B%9C%EB%8A%94%E2%80%85%EA%B8%B8.py)|
 |34281. Class Photo|[링크](./%EB%B0%B1%EC%A4%80/Bronze/34281.%E2%80%85Class%E2%80%85Photo/Class%E2%80%85Photo.py)|
 |34411. M－Climb|[링크](./%EB%B0%B1%EC%A4%80/Bronze/34411.%E2%80%85M%EF%BC%8DClimb/M%EF%BC%8DClimb.py)|
+|34424. Flatter Land|[링크](./%EB%B0%B1%EC%A4%80/Bronze/34424.%E2%80%85Flatter%E2%80%85Land/Flatter%E2%80%85Land.py)|
 |34563. 궁핍한 모그|[링크](./%EB%B0%B1%EC%A4%80/Bronze/34563.%E2%80%85%EA%B6%81%ED%95%8D%ED%95%9C%E2%80%85%EB%AA%A8%EA%B7%B8/%EA%B6%81%ED%95%8D%ED%95%9C%E2%80%85%EB%AA%A8%EA%B7%B8.java)|
 |3460. 이진수|[링크](./%EB%B0%B1%EC%A4%80/Bronze/3460.%E2%80%85%EC%9D%B4%EC%A7%84%EC%88%98/README.md)|
 |3765. Celebrity jeopardy|[링크](./%EB%B0%B1%EC%A4%80/Bronze/3765.%E2%80%85Celebrity%E2%80%85jeopardy/README.md)|
