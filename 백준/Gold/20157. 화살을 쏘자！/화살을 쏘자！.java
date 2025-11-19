@@ -1,33 +1,32 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main {
-
-    // 유클리드 호제법
-    public static int GCD(int x, int y) {
-        if (y == 0) return x;
-        return GCD(y, x % y);
+class Main {
+    private static int gcd(int a, int b){
+        if(b == 0) return a;
+        return gcd(b, a % b);
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
         int N = Integer.parseInt(br.readLine());
-        int answer = 0;
+        int max = 0;
 
         HashMap<String, Integer> map = new HashMap<>();
 
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            int gcd = Math.abs(GCD(x, y)); // 기약분수 형태로 만들기 위해 GCD구하기.
-            String slope = y / gcd + "/" + x / gcd; // 두 노드를 잇는 선의 기울기 구하기
-            map.put(slope, map.getOrDefault(slope, 0) + 1);
-            answer = Math.max(answer, map.get(slope));
+            int gcd = Math.abs(gcd(a, b));
+            String key = (b/gcd) + "/" + (a/gcd);
+
+            map.put(key, map.getOrDefault(key, 0) + 1);
+            max = Math.max(max, map.get(key));
         }
-        System.out.println(answer);
+
+        System.out.println(max);
     }
 }
