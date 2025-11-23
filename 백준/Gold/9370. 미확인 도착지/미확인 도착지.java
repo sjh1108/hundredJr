@@ -65,22 +65,22 @@ class Main {
     private static void dijkstra(){
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparing(o -> o[1]));
         pq.add(new int[]{s, 0});
+        dist[s] = 0;
 
         while(!pq.isEmpty()){
             int[] cur = pq.poll();
-
             int to = cur[0];
             int cost = cur[1];
 
-            if(dist[to] != INF) continue;
-            dist[to] = cost;
+            if(cost > dist[to]) continue;
 
             for(int[] nxt: road.get(to)){
                 int next = nxt[0];
-                int nxtCost = nxt[1] + cost;
+                int weight = nxt[1];
                 
-                if(dist[next] > nxtCost){
-                    pq.add(new int[]{next, nxtCost});
+                if(dist[next] > cost + weight){
+                    dist[next] = cost + weight;
+                    pq.add(new int[]{next, dist[next]});
                 }
             }
         }
