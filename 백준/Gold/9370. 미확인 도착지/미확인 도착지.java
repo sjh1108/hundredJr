@@ -78,8 +78,10 @@ class Main {
             for(int[] nxt: road.get(to)){
                 int next = nxt[0];
                 int nxtCost = nxt[1] + cost;
-
-                pq.add(new int[]{next, nxtCost});
+                
+                if(dist[next] == INF){
+                    pq.add(new int[]{next, nxtCost});
+                }
             }
         }
     }
