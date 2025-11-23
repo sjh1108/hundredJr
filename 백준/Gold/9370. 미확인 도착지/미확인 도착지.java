@@ -79,7 +79,7 @@ class Main {
                 int next = nxt[0];
                 int nxtCost = nxt[1] + cost;
                 
-                if(dist[next] == INF){
+                if(dist[next] > nxtCost){
                     pq.add(new int[]{next, nxtCost});
                 }
             }
