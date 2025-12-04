@@ -39,10 +39,10 @@ class Main {
         tail = new Node(100_001, 0); 
         tail.blank = false;
         
-        Node initMemory = new Node(1, 100_000);
+        Node tmp = new Node(1, 100_000);
         
-        head.next = initMemory; initMemory.prev = head;
-        initMemory.next = tail; tail.prev = initMemory;
+        head.next = tmp; tmp.prev = head;
+        tmp.next = tail; tail.prev = tmp;
 
         int commandCount = Integer.parseInt(br.readLine());
         while (commandCount-- > 0) {
@@ -84,13 +84,13 @@ class Main {
                 key2Node.put(key, cur);
 
                 if (cur.len > size) {
-                    Node newFreeNode = new Node(cur.start + size, cur.len - size);
+                    Node tmp = new Node(cur.start + size, cur.len - size);
                     
-                    newFreeNode.next = cur.next;
-                    newFreeNode.prev = cur;
+                    tmp.next = cur.next;
+                    tmp.prev = cur;
                     
-                    cur.next.prev = newFreeNode;
-                    cur.next = newFreeNode;
+                    cur.next.prev = tmp;
+                    cur.next = tmp;
                     
                     cur.len = size;
                 }
@@ -106,18 +106,18 @@ class Main {
 
         n.blank = true;
         
-        Node nextNode = n.next;
-        if (nextNode != tail && nextNode.blank) {
-            n.len += nextNode.len;
-            n.next = nextNode.next;
-            nextNode.next.prev = n;
+        Node next = n.next;
+        if (next != tail && next.blank) {
+            n.len += next.len;
+            n.next = next.next;
+            next.next.prev = n;
         }
 
-        Node prevNode = n.prev;
-        if (prevNode != head && prevNode.blank) {
-            prevNode.len += n.len;
-            prevNode.next = n.next;
-            n.next.prev = prevNode;
+        Node prev = n.prev;
+        if (prev != head && prev.blank) {
+            prev.len += n.len;
+            prev.next = n.next;
+            n.next.prev = prev;
         }
 
         key2Node.remove(key);
