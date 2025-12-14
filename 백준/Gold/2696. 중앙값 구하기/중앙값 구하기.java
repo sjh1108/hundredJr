@@ -1,17 +1,17 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
+class Main{
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
-        for(int t = 0; t < T; t++){
+        while(T-- > 0){
             int m = Integer.parseInt(br.readLine());
             sb.append(m/2+1 + "\n");
-            PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Comparator.reverseOrder());
-            PriorityQueue<Integer> minQueue = new PriorityQueue<>();
+            Queue<Integer> max = new PriorityQueue<>(Comparator.reverseOrder());
+            Queue<Integer> min = new PriorityQueue<>();
 
             int cnt = 0;
             StringTokenizer st = null;
@@ -23,23 +23,23 @@ public class Main{
                 int x = Integer.parseInt(st.nextToken());
 
                 if(i % 2 == 0){
-                    maxQueue.add(x);
+                    max.add(x);
                 } else{
-                    minQueue.add(x);
+                    min.add(x);
                 }
                 
-                if(!minQueue.isEmpty()){
-                    if(maxQueue.peek() > minQueue.peek()){
-                        int t1 = maxQueue.poll();
-                        int t2 = minQueue.poll();
+                if(!min.isEmpty()){
+                    if(max.peek() > min.peek()){
+                        int t1 = max.poll();
+                        int t2 = min.poll();
 
-                        maxQueue.offer(t2);
-                        minQueue.offer(t1);
+                        max.offer(t2);
+                        min.offer(t1);
                     }
                 }
 
                 if(i % 2 == 0){
-                    sb.append(maxQueue.peek());
+                    sb.append(max.peek());
                     if(cnt == 9 | i == m - 1){
                         sb.append("\n");
                         cnt = 0;
