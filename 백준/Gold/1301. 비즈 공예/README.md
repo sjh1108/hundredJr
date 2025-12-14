@@ -1,4 +1,4 @@
-# [Gold III] 비즈 공예 - 1301 
+# [Gold II] 비즈 공예 - 1301 
 
 [문제 링크](https://www.acmicpc.net/problem/1301) 
 
