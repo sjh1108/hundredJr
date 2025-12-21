@@ -2,30 +2,31 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws IOException{
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        HashMap<String, Boolean> map = new HashMap<>();
+        HashSet<String> map = new HashSet<>();
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
         int count = 0;
-        String[] s = new String[N];
+        
+        List<String> list = new ArrayList<>();
         for(int i = 0; i < N; i++){
-            map.put(br.readLine(), false);
-        } for(int i = 0; i < M; i++){
+            map.add(br.readLine());
+        }
+        for(int i = 0; i < M; i++){
             String str = br.readLine();
-            if(map.get(str) != null){
-                s[count] = str;
-                count++;
+            if(map.contains(str)){
+                list.add(str);
             }
         }
-        s = Arrays.copyOf(s, count);
-        Arrays.sort(s);
-        sb.append(count).append('\n');
-        for(int i = 0; i < count; i++){
-            sb.append(s[i]).append('\n');
+        
+        Collections.sort(list);
+        sb.append(list.size()).append('\n');
+        for(String s: list){
+            sb.append(s).append('\n');
         }
         System.out.println(sb);
     }
