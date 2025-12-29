@@ -49,6 +49,7 @@ public class Main{
 
                 if(dist[i][j] != INF && dist[j][i] != INF){
                     ans = Math.min(ans, dist[i][j] + dist[j][i]);
+                    if(ans > dist[i][j] + dist[j][i]) ans = dist[i][j] + dist[j][i];
                 }
             }
         }
