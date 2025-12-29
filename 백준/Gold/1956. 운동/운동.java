@@ -29,11 +29,14 @@ public class Main{
 
         for(int k = 0; k < V; k++){
             for(int i = 0; i < V; i++){
+                if (dist[i][k] == INF) continue;
+                
+                int ik = dist[i][k];
                 for(int j = 0; j < V; j++){
                     if(i == j) continue;
 
-                    if(dist[i][j] > dist[i][k] + dist[k][j])
-                        dist[i][j] = dist[i][k] + dist[k][j];
+                    if(dist[i][j] > ik + dist[k][j])
+                        dist[i][j] = ik + dist[k][j];
                 }
             }
         }
