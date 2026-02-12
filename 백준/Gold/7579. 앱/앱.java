@@ -1,19 +1,12 @@
 import java.io.*;
 import java.util.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-    static StringBuilder sb;
-
-    static int N, M, K;
-
-    static int[][] dp;
-
+class Main{
     public static void main(String[] args) throws IOException{
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
         int[] memory = new int[N];
         st = new StringTokenizer(br.readLine());
@@ -29,8 +22,8 @@ public class Main{
             sum += cost[i];
         }
 
-        dp = new int[N][sum+1];
-        K = sum;
+        int[][] dp = new int[N][sum+1];
+        int K = sum;
 
         for(int i = 0; i < N; i++){
             int m = memory[i];
