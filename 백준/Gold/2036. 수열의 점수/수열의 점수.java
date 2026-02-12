@@ -2,20 +2,21 @@ import java.util.*;
 import java.io.*;
 import java.math.BigInteger;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+class Main{
     static StringBuilder sb = new StringBuilder();
     static StringTokenizer st;
 
     static int N, M;
 
     public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
 
-		BigInteger answer=new BigInteger("0");
+		BigInteger answer = new BigInteger("0");
 		
 		ArrayList<Long> pList = new ArrayList<Long>();
 		ArrayList<Long> mList = new ArrayList<Long>();
+
         int oCnt = 0;
 		for(int i = 0; i < N; i++)
 		{
@@ -32,23 +33,23 @@ public class Main{
 		Collections.sort(mList);
 		
 		if(pList.size() % 2 == 0) {
-			for(int i = 0; i < pList.size(); i++)
-				answer = answer.add(BigInteger.valueOf(pList.get(i) * pList.get(i++ + 1)));
+			for(int i = 0; i < pList.size(); i+=2)
+				answer = answer.add(BigInteger.valueOf(pList.get(i) * pList.get(i + 1)));
 		}
 		
 		else {
-			for(int i = 0; i < pList.size() - 1; i++)
-				answer = answer.add(BigInteger.valueOf(pList.get(i) * pList.get(i++ + 1)));
+			for(int i = 0; i < pList.size() - 1; i+=2)
+				answer = answer.add(BigInteger.valueOf(pList.get(i) * pList.get(i + 1)));
 			answer = answer.add(BigInteger.valueOf(pList.get(pList.size()-1)));
 		}
 		
 		if(mList.size() % 2 == 0)
-			for(int i = 0; i < mList.size(); i++)
-				answer = answer.add(BigInteger.valueOf(mList.get(i) * mList.get(i++ + 1)));
+			for(int i = 0; i < mList.size(); i+=2)
+				answer = answer.add(BigInteger.valueOf(mList.get(i) * mList.get(i + 1)));
 		
 		else {
-			for(int i = 0; i < mList.size()-1; i++)
-				answer = answer.add(BigInteger.valueOf(mList.get(i) * mList.get(i++ + 1)));
+			for(int i = 0; i < mList.size()-1; i+=2)
+				answer = answer.add(BigInteger.valueOf(mList.get(i) * mList.get(i + 1)));
 			answer=answer.add(BigInteger.valueOf(mList.get(mList.size() - 1)));
 		}
 		
