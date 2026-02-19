@@ -1,56 +1,94 @@
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 class Main {
-    private static int N, M;
+    private static int r;
+    private static int c;
     private static int cnt;
+    private static boolean[][] blocked;
 
-    private static int[] dx = {-1, 0, 1};
-    private static boolean[][] map;
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        r = fs.nextInt();
+        c = fs.nextInt();
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        map = new boolean[N][M];
-        
-        for(int i = 0; i < N; i++){
-            char[] input = br.readLine().toCharArray();
-            for(int j = 0; j < M; j++){
-                if(input[j] == 'x') map[i][j] = true;
+        blocked = new boolean[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                blocked[i][j] = fs.nextByte() == 'x';
             }
         }
 
-        cnt = 0;
-        for(int i = 0; i < N; i++) dfs(i, 0);
+        for (int i = 0; i < r; i++) {
+            if (dfs(i, 0)) {
+                cnt++;
+            }
+        }
 
-        System.out.println(cnt);
+        System.out.print(cnt);
     }
 
-    private static boolean dfs(int x, int y){
-        map[x][y] = true;
+    private static boolean dfs(int x, int y) {
+        blocked[x][y] = true;
 
-        if(y == M-2){
-            cnt++;
+        if (y == c - 2) {
             return true;
         }
 
-        for(int d = 0; d < 3; d++){
-            int nx = x + dx[d];
-            int ny = y + 1;
+        int ny = y + 1;
+        int nx = x - 1;
+        if (nx >= 0 && !blocked[nx][ny] && dfs(nx, ny)) {
+            return true;
+        }
+        if (!blocked[x][ny] && dfs(x, ny)) {
+            return true;
+        }
+        nx = x + 1;
+        return nx < r && !blocked[nx][ny] && dfs(nx, ny);
+    }
 
-            if(!isIn(nx, ny)) continue;
-            if(map[nx][ny]) continue;
-            if(dfs(nx, ny)) return true;
+    private static final class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr;
+        private int len;
+
+        private FastScanner(InputStream in) {
+            this.in = in;
         }
 
-        return false;
-    }
-    
-    private static boolean isIn(int x, int y){
-        return x >= 0 && x < N && y >= 0 && y < M;
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) {
+                    return -1;
+                }
+            }
+            return buffer[ptr++];
+        }
+
+        private int nextInt() throws IOException {
+            int ch = read();
+            while (ch <= ' ') {
+                ch = read();
+            }
+
+            int num = 0;
+            while (ch > ' ') {
+                num = num * 10 + (ch - '0');
+                ch = read();
+            }
+            return num;
+        }
+
+        private byte nextByte() throws IOException {
+            int ch = read();
+            while (ch <= ' ') {
+                ch = read();
+            }
+            return (byte) ch;
+        }
     }
 }
