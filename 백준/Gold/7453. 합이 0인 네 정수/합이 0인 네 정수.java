@@ -1,74 +1,68 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static int N, M;
+        int N = Integer.parseInt(br.readLine());
 
-    static long[] ab, cd;
-    static long[] a, b, c, d;
-
-    public static void main(String[] args) throws IOException{
-        N = Integer.parseInt(br.readLine());
-
-
-        a = new long[N]; b = new long[N];
-        c = new long[N]; d = new long[N];
-
+        long[][] map = new long[N][4];
         for(int i = 0; i < N; i++){
-            st = new StringTokenizer(br.readLine());
-            a[i] = Long.parseLong(st.nextToken());
-            b[i] = Long.parseLong(st.nextToken());
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
-            c[i] = Long.parseLong(st.nextToken());
-            d[i] = Long.parseLong(st.nextToken());
+            int idx = 0;
+            map[i][idx++] = Long.parseLong(st.nextToken());
+            map[i][idx++] = Long.parseLong(st.nextToken());
+            map[i][idx++] = Long.parseLong(st.nextToken());
+            map[i][idx++] = Long.parseLong(st.nextToken());
         }
 
-        ab = new long[N*N];
-        cd = new long[N*N];
-        
+        long[] ab = new long[N*N];
+        long[] cd = new long[N*N];
+
         int idx = 0;
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                ab[idx] = a[i] + b[j];
-                cd[idx++] = c[i] + d[j];
+                ab[idx] = map[i][0] + map[j][1];
+                cd[idx++] = map[i][2] + map[j][3];
             }
         }
 
         Arrays.sort(ab);
         Arrays.sort(cd);
 
-        long answer = 0;
-		int left = 0, right = N*N-1;
-		while (left < N*N && right >= 0) {
-            long sum = ab[left] + cd[right];
-			if (sum < 0)
-				left++;
+        long cnt = 0;
+        int l = 0;
+        int r = N*N - 1;
+        while(l < N*N && r >= 0){
+            long sum = ab[l] + cd[r];
 
-            else if (sum > 0)
-				right--;
-
-            else {
+            if(sum < 0){
+                l++;
+            } else if(sum > 0){
+                r--;
+            } else{
 				long cnt1 = 1, cnt2 = 1;
 
-				while (left + 1 < N*N && (ab[left] == ab[left+1])) {
+				while (l + 1 < N*N && (ab[l] == ab[l+1])) {
 					cnt1++;
-					left++;
+					l++;
 				}
 
-				while (right > 0 && (cd[right] == cd[right-1])) {
+				while (r > 0 && (cd[r] == cd[r-1])) {
 					cnt2++;
-					right--;
+					r--;
 				}
                 
-				answer += cnt1 * cnt2;
-				left++;
-			}
-		}
+				cnt += cnt1 * cnt2;
+				l++;
+            }
+        }
 
-        System.out.println(answer);
+        System.out.println(cnt);
     }
 }
