@@ -25,7 +25,7 @@ class Main {
         }
 
         cnt = 0;
-        for(int i = 0; i < N; i++) if(!map[i][0]) dfs(i, 0);
+        for(int i = 0; i < N; i++) dfs(i, 0);
 
         System.out.println(cnt);
     }
@@ -33,7 +33,7 @@ class Main {
     private static boolean dfs(int x, int y){
         map[x][y] = true;
 
-        if(y == M-1){
+        if(y == M-2){
             cnt++;
             return true;
         }
