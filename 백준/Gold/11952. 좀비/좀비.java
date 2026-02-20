@@ -83,7 +83,7 @@ class Main {
             int t = (int)cur[0];
             long c = cur[1];
             
-            if(cost[t] == INF) continue;
+            if(c > cost[t]) continue;
             if(t == N) return c;
 
             for(int next: roadList.get(t)){
