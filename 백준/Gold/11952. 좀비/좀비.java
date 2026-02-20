@@ -1,103 +1,139 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 class Main {
-    private static long INF = 1L << 60;
-    
+    private static final long INF = 1L << 60;
+    private static final int SHIFT = 17;
+    private static final long MASK = (1L << SHIFT) - 1;
+
     private static int N, M, K, S;
     private static int p, q;
 
-    private static Set<Integer> infested, dangerCities;
-    private static List<List<Integer>> roadList;
+    private static boolean[] infested;
+    private static boolean[] dangerCities;
 
-    private static Queue<Integer> danger;
+    private static int[] head;
+    private static int[] to;
+    private static int[] nextEdge;
+    private static int edgeCount;
+
+    private static int[] danger;
+    private static int dangerFront, dangerBack;
+    private static int[] distFromZombie;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken()); M = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken()); S = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        S = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
-        p = Integer.parseInt(st.nextToken()); q = Integer.parseInt(st.nextToken());
+        p = Integer.parseInt(st.nextToken());
+        q = Integer.parseInt(st.nextToken());
 
-        infested = new HashSet<>();
-        for(int i = 0; i < K; i++) infested.add(Integer.parseInt(br.readLine()));
+        infested = new boolean[N + 1];
+        for (int i = 0; i < K; i++) infested[Integer.parseInt(br.readLine())] = true;
 
-        roadList = new ArrayList<>();
-        for(int i = 0; i <= N; i++) roadList.add(new ArrayList<>());
-        for(int i = 0; i < M; i++){
+        head = new int[N + 1];
+        Arrays.fill(head, -1);
+        to = new int[M * 2];
+        nextEdge = new int[M * 2];
+        edgeCount = 0;
+
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-
-            roadList.get(a).add(b);
-            roadList.get(b).add(a);
+            addEdge(a, b);
+            addEdge(b, a);
         }
 
         checkDangerCites();
         System.out.println(dijkstra());
     }
 
+    private static void addEdge(int a, int b) {
+        to[edgeCount] = b;
+        nextEdge[edgeCount] = head[a];
+        head[a] = edgeCount++;
+    }
+
     // check danger with bfs
-    private static void checkDangerCites(){
-        danger = new ArrayDeque<>(infested);
+    private static void checkDangerCites() {
+        dangerCities = new boolean[N + 1];
+        distFromZombie = new int[N + 1];
+        Arrays.fill(distFromZombie, -1);
+
+        danger = new int[N + 5];
+        dangerFront = 0;
+        dangerBack = 0;
+
+        for (int city = 1; city <= N; city++) {
+            if (!infested[city]) continue;
+            distFromZombie[city] = 0;
+            danger[dangerBack++] = city;
+        }
+
         getDangerCites();
     }
-    
+
     // get danger cities
-    private static void getDangerCites(){
-        dangerCities = new HashSet<>();
-        boolean[] visited = new boolean[N + 1];
-        for(int city : infested) visited[city] = true;
+    private static void getDangerCites() {
+        while (dangerFront < dangerBack) {
+            int cur = danger[dangerFront++];
+            if (distFromZombie[cur] == S) continue;
 
-        for(int s = 0; s < S; s++){
-            int size = danger.size();
+            int nd = distFromZombie[cur] + 1;
+            for (int e = head[cur]; e != -1; e = nextEdge[e]) {
+                int near = to[e];
+                if (distFromZombie[near] != -1) continue;
 
-            for(int i = 0; i < size; i++){
-                int cur = danger.poll();
-
-                for(int near: roadList.get(cur)){
-                    if(visited[near]) continue;
-
-                    visited[near] = true;
-                    danger.add(near);
-                    if(!infested.contains(near)) dangerCities.add(near);
-                }
+                distFromZombie[near] = nd;
+                danger[dangerBack++] = near;
+                if (!infested[near]) dangerCities[near] = true;
             }
         }
     }
 
-    private static long dijkstra(){
-        long[] cost = new long[N+1];
+    private static long dijkstra() {
+        long[] cost = new long[N + 1];
         Arrays.fill(cost, INF);
         cost[1] = 0;
 
-        Queue<long[]> pq = new PriorityQueue<>((o1, o2) -> Long.compare(o1[1], o2[1]));
-        pq.add(new long[]{1, 0});
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+        pq.add(pack(0, 1));
 
-        while(!pq.isEmpty()){
-            long[] cur = pq.poll();
+        while (!pq.isEmpty()) {
+            long state = pq.poll();
+            int t = (int) (state & MASK);
+            long c = state >>> SHIFT;
 
-            int t = (int)cur[0];
-            long c = cur[1];
-            
-            if(c > cost[t]) continue;
-            if(t == N) return c;
+            if (c != cost[t]) continue;
+            if (t == N) return c;
 
-            for(int next: roadList.get(t)){
-                if(infested.contains(next)) continue;
+            for (int e = head[t]; e != -1; e = nextEdge[e]) {
+                int next = to[e];
+                if (infested[next]) continue;
 
-                long add = (next == N) ? 0 : (dangerCities.contains(next) ? q : p);
+                long add = (next == N) ? 0 : (dangerCities[next] ? q : p);
                 long nCst = c + add;
-                if(nCst < cost[next]){
+                if (nCst < cost[next]) {
                     cost[next] = nCst;
-                    pq.add(new long[]{next, nCst});
+                    pq.add(pack(nCst, next));
                 }
             }
         }
 
         return cost[N];
+    }
+
+    private static long pack(long c, int city) {
+        return (c << SHIFT) | city;
     }
 }
