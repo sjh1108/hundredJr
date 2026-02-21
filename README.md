@@ -302,6 +302,7 @@
 |8545. Zadanie próbne|[링크](./%EB%B0%B1%EC%A4%80/Bronze/8545.%E2%80%85Zadanie%E2%80%85pr%C3%B3bne/Zadanie%E2%80%85pr%C3%B3bne.java)|
 |8723. Patyki|[링크](./%EB%B0%B1%EC%A4%80/Bronze/8723.%E2%80%85Patyki/Patyki.java)|
 |8760. Schronisko|[링크](./%EB%B0%B1%EC%A4%80/Bronze/8760.%E2%80%85Schronisko/Schronisko.java)|
+|9085. 더하기|[링크](./%EB%B0%B1%EC%A4%80/Bronze/9085.%E2%80%85%EB%8D%94%ED%95%98%EA%B8%B0/README.md)|
 |9506. 약수들의 합|[링크](./%EB%B0%B1%EC%A4%80/Bronze/9506.%E2%80%85%EC%95%BD%EC%88%98%EB%93%A4%EC%9D%98%E2%80%85%ED%95%A9/%EC%95%BD%EC%88%98%EB%93%A4%EC%9D%98%E2%80%85%ED%95%A9.java)|
 |9933. 민균이의 비밀번호|[링크](./%EB%B0%B1%EC%A4%80/Bronze/9933.%E2%80%85%EB%AF%BC%EA%B7%A0%EC%9D%B4%EC%9D%98%E2%80%85%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8/%EB%AF%BC%EA%B7%A0%EC%9D%B4%EC%9D%98%E2%80%85%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8.java)|
 ### 🚀 Bronze II
