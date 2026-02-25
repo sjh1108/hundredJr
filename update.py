@@ -17,6 +17,7 @@ def main():
 
     for root, dirs, files in os.walk("."):
         dirs.sort()
+        files.sort()
         if root == '.':
             for dir in ('.git', '.github'):
                 try:
@@ -42,12 +43,23 @@ def main():
                 content += "| ----- | ----- |\n"
             directories.append(directory)
 
-        # 각 파일에 대해 문제 번호가 중복되지 않으면 출력
+        # 각 문제 폴더의 README.md만 링크한다.
+        if category in solveds:
+            continue
+
+        readme_name = None
         for file in files:
-            if category not in solveds:
-                file_path = os.path.join(root, file)
-                content += "|{}|[링크]({})|\n".format(category, parse.quote(file_path))
-                solveds.append(category)
+            if file.lower() == "readme.md":
+                readme_name = file
+                break
+
+        # README.md가 없는 폴더는 출력하지 않는다.
+        if readme_name is None:
+            continue
+
+        file_path = os.path.join(root, readme_name).replace("\\", "/")
+        content += "|{}|[링크]({})|\n".format(category, parse.quote(file_path))
+        solveds.append(category)
 
     with open("README.md", "w") as fd:
         fd.write(content)
