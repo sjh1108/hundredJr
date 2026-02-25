@@ -2,47 +2,69 @@ import java.io.*;
 import java.util.*;
 
 class Main {
-    private static final int MAX_N = 100_002;
-    private static final int MAX_A = 26;
     private static final int MOD = 1_000_000_007;
+    private static final int ALPHABET = 26;
 
-    private static int K, N;
-    private static long ans;
-
-    private static boolean[][] comb;
-    private static long[][] dp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        K = Integer.parseInt(st.nextToken());
-        N = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
 
-        comb = new boolean[MAX_A][MAX_A];
-        dp = new long[MAX_N][MAX_A];
+        int[] from = new int[k];
+        int[] to = new int[k];
 
-        for(int i = 0; i < K; i++){
-            String input = br.readLine();
-
-            comb[input.charAt(0) - 'a'][input.charAt(1) - 'a'] = true;
+        for (int i = 0; i < k; i++) {
+            String pair = br.readLine();
+            from[i] = pair.charAt(0) - 'a';
+            to[i] = pair.charAt(1) - 'a';
         }
 
-        for(int i = 2; i <= N; i++){
-            for (int j = 0; j < MAX_A; j++) {
-                for (int k = 0; k < MAX_A; k++) {
-                    if (comb[j][k]) {
-                        dp[i][j] += ((dp[i - 1][k] + 1) % MOD);
-                        dp[i][j] %= MOD;
-                    }
-                }
+        // prev[c]: number of valid names of current length ending with character c
+        int[] prev = new int[ALPHABET];
+        int[] curr = new int[ALPHABET];
+
+        for (int i = 0; i < k; i++) {
+            int end = to[i];
+            prev[end]++;
+            if (prev[end] >= MOD) {
+                prev[end] -= MOD;
             }
         }
-        
-        for (int i = 0; i < MAX_A; i++) {
-            ans += dp[N][i];
-            ans %= MOD;
+
+        int answer = k % MOD; // length 2 names
+
+        for (int len = 3; len <= n; len++) {
+            Arrays.fill(curr, 0);
+
+            for (int i = 0; i < k; i++) {
+                int next = to[i];
+                int value = curr[next] + prev[from[i]];
+                if (value >= MOD) {
+                    value -= MOD;
+                }
+                curr[next] = value;
+            }
+
+            int countThisLength = 0;
+            for (int c = 0; c < ALPHABET; c++) {
+                countThisLength += curr[c];
+                if (countThisLength >= MOD) {
+                    countThisLength -= MOD;
+                }
+            }
+
+            answer += countThisLength;
+            if (answer >= MOD) {
+                answer -= MOD;
+            }
+
+            int[] temp = prev;
+            prev = curr;
+            curr = temp;
         }
 
-        System.out.println(ans % MOD);
+        System.out.println(answer);
     }
 }
