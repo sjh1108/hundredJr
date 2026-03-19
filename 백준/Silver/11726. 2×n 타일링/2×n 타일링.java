@@ -23,7 +23,6 @@ public class Main {
         for(int i = 3; i <= N; i++){
             arr[i] = (arr[i - 2] + arr[i - 1]) % 10007;
         }
-
         System.out.println(arr[N]);
     }
 }
