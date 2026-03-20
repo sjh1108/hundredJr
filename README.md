@@ -586,6 +586,7 @@
 | 문제번호 | 링크 |
 | ----- | ----- |
 |1019. 책 페이지|[링크](./%EB%B0%B1%EC%A4%80/Platinum/1019.%E2%80%85%EC%B1%85%E2%80%85%ED%8E%98%EC%9D%B4%EC%A7%80/README.md)|
+|1090. 체커|[링크](./%EB%B0%B1%EC%A4%80/Platinum/1090.%E2%80%85%EC%B2%B4%EC%BB%A4/README.md)|
 |11438. LCA 2|[링크](./%EB%B0%B1%EC%A4%80/Platinum/11438.%E2%80%85LCA%E2%80%852/README.md)|
 |1162. 도로포장|[링크](./%EB%B0%B1%EC%A4%80/Platinum/1162.%E2%80%85%EB%8F%84%EB%A1%9C%ED%8F%AC%EC%9E%A5/README.md)|
 |12094. 2048 （Hard）|[링크](./%EB%B0%B1%EC%A4%80/Platinum/12094.%E2%80%852048%E2%80%85%EF%BC%88Hard%EF%BC%89/README.md)|
