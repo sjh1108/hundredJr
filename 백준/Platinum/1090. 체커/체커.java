@@ -17,27 +17,23 @@ class Main {
         }
 
         int[] ans = new int[N+1];
+        int[] dist = new int[N];
         Arrays.fill(ans, 1 << 30);
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
                 int x = arr[i][0];
                 int y = arr[j][1];
 
-                PriorityQueue<Integer> pq = new PriorityQueue<>();
                 for(int k = 0; k < N; k++){
-                    pq.add(getDistance(x, y, arr[k][0], arr[k][1]));
+                    dist[k] = getDistance(x, y, arr[k][0], arr[k][1]);
                 }
 
-                int cnt = 0;
-                int sum = 0;
-                while(!pq.isEmpty()){
-                    sum += pq.poll();
+                Arrays.sort(dist);
 
-                    if(ans[cnt + 1] > sum){
-                        ans[cnt + 1] = sum;
-                    }
-                    
-                    cnt++;
+                int sum = 0;
+                for(int k = 0; k < N; k++){
+                    sum += dist[k];
+                    ans[k + 1] = Math.min(ans[k+1], sum);
                 }
             }
         }
