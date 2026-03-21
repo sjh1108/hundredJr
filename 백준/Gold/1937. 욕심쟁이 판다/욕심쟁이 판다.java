@@ -26,16 +26,14 @@ class Main {
             }
         }
 
+        int ans = 0;
         for(int i = 0; i < N; i++){
-            for(int j = 0; j < N; j++) dfs(i, j);
+            for(int j = 0; j < N; j++) {
+                ans = Math.max(ans, dfs(i, j));
+            }
         }
 
-        int max = 0;
-        for(int[] arr: dp){
-            for(int i: arr) max = Math.max(max, i);
-        }
-
-        System.out.println(max);
+        System.out.println(ans);
     }
 
     private static int dfs(int x, int y){
