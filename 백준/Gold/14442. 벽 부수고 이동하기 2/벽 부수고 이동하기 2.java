@@ -21,27 +21,20 @@ class Main {
             map[i] = br.readLine().toCharArray();
         }
 
-        int INF = 1_000_000;
-        int[][][] arr = new int[N][M][K+1];
-
-        for(int[][] ar: arr){
-            for(int[] a: ar){
-                Arrays.fill(a, INF);
-            }
-        }
-
-        arr[0][0][0] = 1;
+        int[][] visited = new int[N][M];
+        for(int[] row : visited) Arrays.fill(row, Integer.MAX_VALUE);
+        visited[0][0] = 0;
 
         Queue<int[]> q = new ArrayDeque<>();
-        q.add(new int[]{0, 0, 0});
+        q.add(new int[]{0, 0, 1, 0}); // x, y, dist, cnt
 
         while(!q.isEmpty()){
             int[] cur = q.poll();
 
-            int x = cur[0], y = cur[1], k = cur[2];
+            int x = cur[0], y = cur[1], dist = cur[2], cnt = cur[3];
 
             if(x == N-1 && y == M-1){
-                System.out.println(arr[x][y][k]);
+                System.out.println(dist);
                 return;
             }
 
@@ -50,11 +43,17 @@ class Main {
                 int ny = y + dy[d];
                 if(!isIn(nx, ny)) continue;
 
-                int nk = k + (map[nx][ny] == '1' ? 1 : 0);
-                if(nk > K || arr[nx][ny][nk] != INF) continue;
-
-                arr[nx][ny][nk] = arr[x][y][k] + 1;
-                q.add(new int[]{nx, ny, nk});
+                if(map[nx][ny] == '0'){
+                    if(visited[nx][ny] > cnt){
+                        visited[nx][ny] = cnt;
+                        q.add(new int[]{nx, ny, dist + 1, cnt});
+                    }
+                } else {
+                    if(cnt < K && visited[nx][ny] > cnt + 1){
+                        visited[nx][ny] = cnt + 1;
+                        q.add(new int[]{nx, ny, dist + 1, cnt + 1});
+                    }
+                }
             }
         }
 
