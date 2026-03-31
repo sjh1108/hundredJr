@@ -2,71 +2,63 @@ import java.io.*;
 import java.util.*;
 
 class Main {
-    private static final int INF = 1 << 20;
-    private static int N, M, K;
-
-    private static char[][] map;
+    private static int N, M;
 
     private static int[] dx = {-1, 0, 1, 0};
-    private static int[] dy = {0, 1, 0, -1};
+    private static int[] dy = {0, -1, 0, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-        map = new char[N][M];
+        char[][] map = new char[N][M];
 
         for(int i = 0; i < N; i++){
             map[i] = br.readLine().toCharArray();
         }
 
-        int[][][] dist = new int[N][M][K+1];
-        for(int[][] a : dist){
-            for(int[] b: a){
-                Arrays.fill(b, INF);
+        int INF = 1_000_000;
+        int[][][] arr = new int[N][M][K+1];
+
+        for(int[][] ar: arr){
+            for(int[] a: ar){
+                Arrays.fill(a, INF);
             }
         }
-        
+
+        arr[0][0][0] = 1;
+
         Queue<int[]> q = new ArrayDeque<>();
-        q.add(new int[]{0, 0, 0, 1});
+        q.add(new int[]{0, 0, 0});
 
         while(!q.isEmpty()){
             int[] cur = q.poll();
 
-            int x = cur[0];
-            int y = cur[1];
-            int cnt = cur[2];
-            int cost = cur[3];
+            int x = cur[0], y = cur[1], k = cur[2];
 
-            if(dist[x][y][cnt] != INF) continue;
+            if(x == N-1 && y == M-1){
+                System.out.println(arr[x][y][k]);
+                return;
+            }
 
-            dist[x][y][cnt] = cost;
             for(int d = 0; d < 4; d++){
                 int nx = x + dx[d];
                 int ny = y + dy[d];
-
                 if(!isIn(nx, ny)) continue;
 
-                if(map[nx][ny] == '0'){
-                    q.add(new int[]{nx, ny, cnt, cost+1});
-                    continue;
-                } else{
-                    if(cnt == K) continue;
-                    
-                    q.add(new int[]{nx, ny, cnt+1, cost+1});
-                }
+                int nk = k + (map[nx][ny] == '1' ? 1 : 0);
+                if(nk > K || arr[nx][ny][nk] != INF) continue;
+
+                arr[nx][ny][nk] = arr[x][y][k] + 1;
+                q.add(new int[]{nx, ny, nk});
             }
         }
 
-        int min = INF;
-        for(int cnt = 0; cnt <= K; cnt++){
-            min = Math.min(dist[N-1][M-1][cnt], min);
-        }
-
-        System.out.println(min == INF ? -1 : min);
+        System.out.println(-1);
     }
 
     private static boolean isIn(int x, int y){
