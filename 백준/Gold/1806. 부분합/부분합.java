@@ -1,39 +1,34 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static int N, M;
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-	static final int INF = 1000000000;
+        int N = Integer.parseInt(st.nextToken());
+        int S = Integer.parseInt(st.nextToken());
 
-    public static void main(String[] args) throws IOException{
-		st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken()); M = Integer.parseInt(st.nextToken());
+        int INF = 1_000_000_000;
 
-		st = new StringTokenizer(br.readLine());
-		int[] arr = new int[N+1];
-		for(int i = 1; i <= N; i++){
-			arr[i] = Integer.parseInt(st.nextToken()) + arr[i-1];
-		}
+        int[] sum = new int[N + 1];
+        
+        int point = 0;
+        int min = INF;
 
-		int ans = INF, sum = 0;
-		int start = 0, end = 1;
-		while(start <= N && end <= N){
-			sum = arr[end] - arr[start];
+        st = new StringTokenizer(br.readLine());
+        for(int i = 1; i <= N; i++){
+            int input = Integer.parseInt(st.nextToken());
 
-			if(sum < M) end++;
-			
-			else{
-				ans = Math.min(ans, end - start);
-				start++;
-			}
-		}
+            sum[i] = sum[i-1] + input;
 
-		sb.append(ans == INF ? 0 : ans);
-		System.out.println(sb);
-	}
+            while(sum[i] - sum[point] >= S){
+                min = Math.min(min, i - point);
+                point++;
+            }
+        }
+
+        System.out.println(min == INF ? 0 : min);
+    }
 }
