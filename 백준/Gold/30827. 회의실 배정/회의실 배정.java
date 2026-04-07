@@ -22,24 +22,23 @@ class Main {
 
         int ans = 0;
 
-        List<Integer> rooms = new ArrayList<>();
-        outLoop: for(int[] meet: meets){
+        TreeMap<Integer, Integer> rooms = new TreeMap<>();
+        int roomCount = 0;
+
+        for(int[] meet: meets){
             int s = meet[0];
             int e = meet[1];
 
-            Collections.sort(rooms, Comparator.reverseOrder());
-
-            for(int i = 0; i < rooms.size(); i++){
-                if(rooms.get(i) < s){
-                    rooms.remove(i);
-                    rooms.add(e);
-                    ++ans;
-                    continue outLoop;
-                }
-            }
-            if(rooms.size() < K){
+            Map.Entry<Integer, Integer> best = rooms.lowerEntry(s);
+            if(best != null){
+                if(best.getValue() == 1) rooms.remove(best.getKey());
+                else rooms.merge(best.getKey(), -1, Integer::sum);
+                rooms.merge(e, 1, Integer::sum);
                 ++ans;
-                rooms.add(e);
+            } else if(roomCount < K){
+                rooms.merge(e, 1, Integer::sum);
+                ++roomCount;
+                ++ans;
             }
         }   
 
