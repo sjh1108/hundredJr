@@ -18,26 +18,25 @@ class Main {
             meets[i][1] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(meets, Comparator.comparingInt(o -> o[1]));
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] != b[1] ? a[1] - b[1] : a[0] - b[0]);
+        for(int[] meet: meets) pq.add(meet);
 
         int ans = 0;
+        int[] rooms = new int[K];
 
-        TreeMap<Integer, Integer> rooms = new TreeMap<>();
-        int roomCount = 0;
-
-        for(int[] meet: meets){
+        while(!pq.isEmpty()){
+            int[] meet = pq.poll();
             int s = meet[0];
             int e = meet[1];
 
-            Map.Entry<Integer, Integer> best = rooms.lowerEntry(s);
-            if(best != null){
-                if(best.getValue() == 1) rooms.remove(best.getKey());
-                else rooms.merge(best.getKey(), -1, Integer::sum);
-                rooms.merge(e, 1, Integer::sum);
-                ++ans;
-            } else if(roomCount < K){
-                rooms.merge(e, 1, Integer::sum);
-                ++roomCount;
+            int best = -1;
+            for(int i = 0; i < K; i++){
+                if(rooms[i] < s && (best == -1 || rooms[i] > rooms[best])){
+                    best = i;
+                }
+            }
+            if(best != -1){
+                rooms[best] = e;
                 ++ans;
             }
         }   
