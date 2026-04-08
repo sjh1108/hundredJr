@@ -31,7 +31,8 @@ class Main {
         long p = dfs(Math.floorDiv(n, P) - X);
         long q = dfs(Math.floorDiv(n, Q) - Y);
 
-        if(!map.containsKey(n)) map.put(n, p+q);
+        map.put(n, p+q);
+        
         return p + q;
     }
 }
