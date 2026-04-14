@@ -15,12 +15,12 @@ class Main {
             return (o2+o1).compareTo(o1+o2);
         });
 
-        String ans = "";
-        for(String str: inputs) ans += str;
+        StringBuilder sb = new StringBuilder();
+        for(String str: inputs) sb.append(str);
 
-        if(ans.charAt(0) == '0')
+        if(sb.charAt(0) == '0')
             System.out.println(0);
         else
-            System.out.println(ans);
+            System.out.println(sb);
     }
 }
