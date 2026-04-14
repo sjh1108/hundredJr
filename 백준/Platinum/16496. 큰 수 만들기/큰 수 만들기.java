@@ -11,8 +11,10 @@ class Main {
         for(int i = 0; i < N; i++){
             inputs[i] = st.nextToken();
         }
-        Arrays.sort(inputs, (o1, o2) -> {
-            return (o2+o1).compareTo(o1+o2);
+        Arrays.sort(inputs, new Comparator<String>() {
+            public int compare(String o1, String o2){
+                return (o2+o1).compareTo(o1+o2);
+            }
         });
 
         StringBuilder sb = new StringBuilder();
