@@ -1,5 +1,4 @@
 import java.io.*;
-import java.math.BigInteger;
 import java.util.*;
 
 class Main {
@@ -13,10 +12,7 @@ class Main {
             inputs[i] = st.nextToken();
         }
         Arrays.sort(inputs, (o1, o2) -> {
-            BigInteger b1 = new BigInteger(o1 + o2);
-            BigInteger b2 = new BigInteger(o2 + o1);
-
-            return b2.compareTo(b1);
+            return (o2+o1).compareTo(o1+o2);
         });
 
         String ans = "";
