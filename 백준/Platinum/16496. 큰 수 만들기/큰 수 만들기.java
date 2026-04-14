@@ -17,12 +17,16 @@ class Main {
             }
         });
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(N * 10);
         for(String str: inputs) sb.append(str);
 
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         if(sb.charAt(0) == '0')
-            System.out.println(0);
+            bw.write("0");
         else
-            System.out.println(sb);
+            bw.write(sb.toString());
+        bw.newLine();
+        bw.flush();
+        bw.close();
     }
 }
