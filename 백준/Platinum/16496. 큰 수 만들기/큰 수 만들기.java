@@ -12,13 +12,11 @@ class Main {
         for(int i = 0; i < N; i++){
             inputs[i] = st.nextToken();
         }
-        Arrays.sort(inputs, new Comparator<String>() {
-            public int compare(String o1, String o2){
-                BigInteger b1 = new BigInteger(o1 + o2);
-                BigInteger b2 = new BigInteger(o2 + o1);
+        Arrays.sort(inputs, (o1, o2) -> {
+            BigInteger b1 = new BigInteger(o1 + o2);
+            BigInteger b2 = new BigInteger(o2 + o1);
 
-                return b2.compareTo(b1);
-            }
+            return b2.compareTo(b1);
         });
 
         String ans = "";
