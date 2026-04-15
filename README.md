@@ -186,6 +186,7 @@
 |2033. 반올림|[링크](./%EB%B0%B1%EC%A4%80/Bronze/2033.%E2%80%85%EB%B0%98%EC%98%AC%EB%A6%BC/README.md)|
 |20492. 세금|[링크](./%EB%B0%B1%EC%A4%80/Bronze/20492.%E2%80%85%EC%84%B8%EA%B8%88/README.md)|
 |20528. 끝말잇기|[링크](./%EB%B0%B1%EC%A4%80/Bronze/20528.%E2%80%85%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/README.md)|
+|2083. 럭비 클럽|[링크](./%EB%B0%B1%EC%A4%80/Bronze/2083.%E2%80%85%EB%9F%AD%EB%B9%84%E2%80%85%ED%81%B4%EB%9F%BD/README.md)|
 |21300. Bottle Return|[링크](./%EB%B0%B1%EC%A4%80/Bronze/21300.%E2%80%85Bottle%E2%80%85Return/README.md)|
 |21598. SciComLove|[링크](./%EB%B0%B1%EC%A4%80/Bronze/21598.%E2%80%85SciComLove/README.md)|
 |22193. Multiply|[링크](./%EB%B0%B1%EC%A4%80/Bronze/22193.%E2%80%85Multiply/README.md)|
