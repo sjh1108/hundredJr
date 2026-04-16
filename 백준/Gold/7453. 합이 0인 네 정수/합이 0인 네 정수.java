@@ -1,20 +1,18 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
 
+        int idx;
         long[][] map = new long[N][4];
         for(int i = 0; i < N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
 
-            int idx = 0;
+            idx = 0;
             map[i][idx++] = Long.parseLong(st.nextToken());
             map[i][idx++] = Long.parseLong(st.nextToken());
             map[i][idx++] = Long.parseLong(st.nextToken());
@@ -24,7 +22,7 @@ public class Main {
         long[] ab = new long[N*N];
         long[] cd = new long[N*N];
 
-        int idx = 0;
+        idx = 0;
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
                 ab[idx] = map[i][0] + map[j][1];
