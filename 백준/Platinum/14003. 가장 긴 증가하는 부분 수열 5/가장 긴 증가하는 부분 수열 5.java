@@ -1,25 +1,17 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
-
-    static int N, M;
-
-    static int[] arr;
-    static int[] index;
-    static List<Integer> list = new ArrayList<>();
-
+class Main{
     public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(br.readLine());
-        st = new StringTokenizer(br.readLine());
-
-        arr = new int[N];
-        index = new int[N];
+        int[] arr = new int[N];
+        int[] index = new int[N];
         for(int i = 0; i < N; i++) arr[i] = Integer.parseInt(st.nextToken());
+        List<Integer> list = new ArrayList<>();
         list.add(Integer.MIN_VALUE);
 
         for(int i = 0; i < N; i++){
@@ -45,7 +37,8 @@ public class Main{
             index[i] = right;
         }
 
-        M = list.size()-1;
+        int M = list.size()-1;
+        StringBuilder sb = new StringBuilder();
         sb.append(M).append('\n');
 
         Stack<Integer> stack = new Stack<>();
