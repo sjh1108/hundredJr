@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main{
+class Main{
     private static HashMap<String, Integer> map = new HashMap<>();
     private static List<Command> commands = new ArrayList<>();
 
@@ -20,14 +20,6 @@ public class Main{
             arr[y] = temp;
             return arr;
         }
-    }
-
-    private static String arrayToString(int[] arr){
-        StringBuilder sb = new StringBuilder();
-        for(int num : arr){
-            sb.append(num);
-        }
-        return sb.toString().trim();
     }
 
     public static void main(String[] args) throws IOException {
@@ -81,5 +73,13 @@ public class Main{
 
         String ansKey = arrayToString(answer);
         System.out.println(map.getOrDefault(ansKey, -1));
+    }
+
+    private static String arrayToString(int[] arr){
+        StringBuilder sb = new StringBuilder();
+        for(int num : arr){
+            sb.append(num);
+        }
+        return sb.toString().trim();
     }
 }
