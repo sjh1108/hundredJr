@@ -1,13 +1,7 @@
-import java.io.BufferedReader;
-//import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main {
 	private static int N, M, K;
 	private static int min;
 	private static int sx, sy;
@@ -19,55 +13,7 @@ public class Main {
 	private static int[] dx = {-1, 1, 0, 0};
 	private static int[] dy = {0, 0, -1, 1};
 	
-	private static boolean isIn(int x, int y) {
-		return (x >= 0 && x < N) && (y >= 0 && y < M);
-	}
-	
-	private static void bfs() {
-		int[] tmp = new int[] {sx, sy};
-		dist[sx][sy] = 0;
-		
-		Queue<int[]> q = new ArrayDeque<>();
-		q.add(tmp);
-		
-		int time = 1;
-		while(!q.isEmpty()) {
-			int size = q.size();
-			
-			while(size-- > 0) {
-				int[] cur = q.poll();
-				
-				int x = cur[0];
-				int y = cur[1];
-				
-				for(int d = 0; d < 4; d++) {
-					for(int l = 1; l <= K; l++) {
-						int nx = x + dx[d] * l;
-						int ny = y + dy[d] * l;
-						
-						
-						if(!isIn(nx, ny) || map[nx][ny] == 1) break;
-						// if(dist[nx][ny]) continue;
-                        if(dist[nx][ny] < time) break;
-                        if(dist[nx][ny] == time) continue;
-//						System.out.println(nx + " : " + ny);
-						
-						if(nx == ex && ny == ey) {
-							min = time;
-							return;
-						}
-						
-						dist[nx][ny] = time;
-						q.add(new int[] {nx, ny});
-					}
-				}
-			}
-			
-			time++;
-		}
-	}
 	public static void main(String[] args) throws IOException{
-//		System.setIn(new FileInputStream("Test4.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -102,4 +48,49 @@ public class Main {
 		System.out.println(min == Integer.MAX_VALUE ? -1 : min);
 	}
 
+	private static void bfs() {
+		int[] tmp = new int[] {sx, sy};
+		dist[sx][sy] = 0;
+		
+		Queue<int[]> q = new ArrayDeque<>();
+		q.add(tmp);
+		
+		int time = 1;
+		while(!q.isEmpty()) {
+			int size = q.size();
+			
+			while(size-- > 0) {
+				int[] cur = q.poll();
+				
+				int x = cur[0];
+				int y = cur[1];
+				
+				for(int d = 0; d < 4; d++) {
+					for(int l = 1; l <= K; l++) {
+						int nx = x + dx[d] * l;
+						int ny = y + dy[d] * l;
+						
+						
+						if(!isIn(nx, ny) || map[nx][ny] == 1) break;
+                        if(dist[nx][ny] < time) break;
+                        if(dist[nx][ny] == time) continue;
+						
+						if(nx == ex && ny == ey) {
+							min = time;
+							return;
+						}
+						
+						dist[nx][ny] = time;
+						q.add(new int[] {nx, ny});
+					}
+				}
+			}
+			
+			time++;
+		}
+	}
+	
+	private static boolean isIn(int x, int y) {
+		return (x >= 0 && x < N) && (y >= 0 && y < M);
+	}
 }
