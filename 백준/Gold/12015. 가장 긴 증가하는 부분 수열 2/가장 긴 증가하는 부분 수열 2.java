@@ -1,56 +1,42 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-
-    static int N;
-    static int M;
-    static int K;
-
-    static int[] arr;
-
+class Main{
     public static void main(String[] args) throws IOException{
-        N = Integer.parseInt(br.readLine());
-        arr = new int[N];
-        int[] LIS = new int[N];
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        st = new StringTokenizer(br.readLine());
+        int[] arr = new int[N];
+        int[] index = new int[N];
+        for(int i = 0; i < N; i++) arr[i] = Integer.parseInt(st.nextToken());
+        List<Integer> list = new ArrayList<>();
+        list.add(Integer.MIN_VALUE);
+
         for(int i = 0; i < N; i++){
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
+            
+            if(list.get(list.size() - 1) < arr[i]){
+                list.add(arr[i]);
+                index[i] = list.size() - 1;
 
-        LIS[0] = arr[0];
-        int len = 1;
+                continue;
+            }
+            
+            int left = 0, right = list.size() - 1;
 
-        for(int i = 1; i < N; i++){
-            int key = arr[i];
+            while(left < right){
 
-            if(LIS[len - 1] < key){
-                LIS[len++] = key;
+                int mid = (left+right) / 2;
+
+                if(list.get(mid) < arr[i]) left = mid + 1;
+                else right = mid;
             }
 
-            else{
-                int lo = 0;
-                int hi = len;
-
-                while(lo < hi){
-                    int mid = (lo + hi) / 2;
-
-                    if(LIS[mid] < key){
-                        lo = mid + 1;
-                    }
-                    else{
-                        hi = mid;
-                    }
-                }
-
-                LIS[lo] = key;
-            }
+            list.set(right, arr[i]);
+            index[i] = right;
         }
 
-        System.out.println(len);
+        System.out.println(list.size()-1);
     }
 }
