@@ -1,17 +1,7 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main {
-    private static int N;
-
-    private static int[] parent;
-    private static Queue<Edge> edgeList;
-    
+class Main {
     static class Edge implements Comparable<Edge>{
         int from, to, cost;
 
@@ -26,20 +16,11 @@ public class Main {
             return Integer.compare(this.cost, e.cost);
         }
     }
+    
+    private static int N;
 
-    private static int find(int x){
-        if(parent[x] == x) return x;
-
-        return parent[x] = find(parent[x]);
-    }
-    private static void union(int x, int y){
-        int rootX = find(x);
-        int rootY = find(y);
-        if(rootX != rootY){
-            parent[rootY] = rootX;
-        }
-    }
-
+    private static int[] parent;
+    private static Queue<Edge> edgeList;
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -122,5 +103,18 @@ public class Main {
         }
 
         System.out.println(sum);
+    }
+
+    private static int find(int x){
+        if(parent[x] == x) return x;
+
+        return parent[x] = find(parent[x]);
+    }
+    private static void union(int x, int y){
+        int rootX = find(x);
+        int rootY = find(y);
+        if(rootX != rootY){
+            parent[rootY] = rootX;
+        }
     }
 }
