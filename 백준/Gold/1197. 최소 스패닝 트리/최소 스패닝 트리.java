@@ -1,15 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
-
-    static int N, M;
-
-	static int V, E;
-	static int[] parent;
+class Main{
 	static class Node implements Comparable<Node>{
 		int from, to, weight;
 
@@ -24,9 +16,13 @@ public class Main{
 			return this.weight - o.weight;
 		}
 	}
+    
+	private static int V, E;
+	private static int[] parent;
 
     public static void main(String[] args) throws IOException{
-        st = new StringTokenizer(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 		V = Integer.parseInt(st.nextToken());
 		E = Integer.parseInt(st.nextToken());
 
@@ -35,7 +31,7 @@ public class Main{
 			parent[i] = i;
 		}
 
-		PriorityQueue<Node> pq = new PriorityQueue<>();
+		Queue<Node> pq = new PriorityQueue<>();
 		for(int i = 0; i < E; i++){
 			st = new StringTokenizer(br.readLine());
 			int from = Integer.parseInt(st.nextToken());
@@ -62,19 +58,19 @@ public class Main{
 		System.out.println(total);
     }
 
-	static int find(int x){
+	private static int find(int x){
 		if(parent[x] == x) return x;
 		return parent[x] = find(parent[x]);
 	}
 
-	static void union(int x, int y){
+	private static void union(int x, int y){
 		x = find(x);
 		y = find(y);
 
 		if(x != y) parent[y] = x;
 	}
 
-	static boolean isSameParent(int x, int y){
+	private static boolean isSameParent(int x, int y){
 		x = find(x);
 		y = find(y);
 
