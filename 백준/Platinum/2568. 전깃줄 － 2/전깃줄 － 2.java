@@ -61,7 +61,7 @@ class Main {
 
         StringBuilder sb = new StringBuilder();
         while(!pq.isEmpty()){
-            sb.append(pq.poll() + "\n");
+            sb.append(pq.poll()).append('\n');
         }
         System.out.print(sb);
     }
