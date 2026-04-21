@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main {
 	static class Pair {
 		int x;
 		int y;
@@ -12,34 +12,34 @@ public class Main {
 		}
 	}
 
-	static int N, M;
-	static int[] dx = {-1, 1, 0, 0};
-	static int[] dy = {0, 0, -1, 1};
-	static int[][] map, visit;
-	static StringBuilder sb;
-	static String[] splitedLine;
-	static Map<Integer, Integer> countMap = new HashMap<>();
+	private static int N, M;
+    
+	private static int[] dx = {-1, 1, 0, 0};
+	private static int[] dy = {0, 0, -1, 1};
+    
+	private static int[][] map, visit;
+	private static Map<Integer, Integer> countMap;
 
 	public static void main(String[] args) throws Exception {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		sb = new StringBuilder();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
-		// 입력부
-		splitedLine = in.readLine().split(" ");
-		N = Integer.parseInt(splitedLine[0]);
-		M = Integer.parseInt(splitedLine[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
 
 		map = new int[N][M];
 		visit = new int[N][M];
+        
+        countMap = new HashMap<>();
 
 		for (int i = 0; i < N; ++i) {
-			String line = in.readLine();
+			char[] input = br.readLine().toCharArray();
 			for (int j = 0; j < M; ++j) {
-				map[i][j] = line.charAt(j) - '0';
+				map[i][j] = input[j] - '0';
 			}
 		}
 
-		// 로직
 		int groupId = 0;
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < M; ++j) {
@@ -50,7 +50,6 @@ public class Main {
 			}
 		}
 
-		// 출력부
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < M; ++j) {
 				if (map[i][j] == 1) {
@@ -70,9 +69,9 @@ public class Main {
 					sb.append("0");
 				}
 			}
-			sb.append("\n");
+			sb.append('\n');
 		}
-		System.out.println(sb);
+		System.out.print(sb);
 	}
 
 	private static void bfs(int x, int y, int groupId) {
