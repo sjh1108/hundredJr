@@ -1,64 +1,64 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    // static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    static StringTokenizer st;
-    static int N, M, K;
+class Main {
+    private static int N, K;
 
-    static class Node{
-        List<Node> head = new ArrayList<>();
-        int cost, idx;
-
-        public Node(int cost, int idx){
-            this.cost = cost;
-            this.idx = idx;
-        }
-    }
-    static Node[] nodes;
-    static boolean[] visited;
-    
+    private static int[] delay, dp;
+    private static List<List<Integer>> list;
     public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        dp = new int[1001];
+        delay = new int[1001];
+        list = new ArrayList<>();
+        for(int i = 0; i < 1001; i++){
+            list.add(new ArrayList<>());
+        }
         int T = Integer.parseInt(br.readLine());
 
+        StringBuilder sb = new StringBuilder();
         while(T-- > 0){
-            st = new StringTokenizer(br.readLine());
+            for(List<Integer> l: list){
+                l.clear();
+            }
+
+            StringTokenizer st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());
             K = Integer.parseInt(st.nextToken());
 
-            nodes = new Node[N+1];
             st = new StringTokenizer(br.readLine());
-            for(int i = 1; i <= N; i++){
-                nodes[i] = new Node(Integer.parseInt(st.nextToken()), i);
+            for(int i = 1; i <= N; ++i) {
+                delay[i] = Integer.parseInt(st.nextToken());
+                dp[i] = Integer.MAX_VALUE;
             }
 
-            for(int i = 0; i < K; i++){
+            while(K-- > 0){
                 st = new StringTokenizer(br.readLine());
-                int before = Integer.parseInt(st.nextToken());
-                int after = Integer.parseInt(st.nextToken());
-                
-                nodes[after].head.add(nodes[before]);
+
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+
+                list.get(y).add(x);
             }
 
-            visited = new boolean[N+1];
-            int W = Integer.parseInt(br.readLine());
-            sb.append(dfs(W)).append("\n");
+            sb.append(dfs(Integer.parseInt(br.readLine())));
+            sb.append('\n');
         }
 
-        System.out.println(sb);
+        System.out.print(sb);
     }
 
-    static int dfs(int idx){
-        if(visited[idx]) return nodes[idx].cost;
-
-        visited[idx] = true;
+    private static int dfs(int start){
         int max = 0;
-        for(Node node : nodes[idx].head){
-            max = Math.max(max, dfs(node.idx));
+        if(dp[start] != Integer.MAX_VALUE) return dp[start];
+
+        for(int x : list.get(start)){
+            max = Math.max(max, dfs(x));
         }
 
-        return nodes[idx].cost += max;
+        dp[start] = max + delay[start];
+
+        return dp[start];
     }
 }
