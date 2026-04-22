@@ -4,31 +4,28 @@ import java.util.*;
 class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int N = Integer.parseInt(st.nextToken());
         int S = Integer.parseInt(st.nextToken());
 
-        int INF = 1_000_000_000;
-
-        int[] sum = new int[N + 1];
-        
-        int point = 0;
-        int min = INF;
-
+        int[] arr = new int[N];
         st = new StringTokenizer(br.readLine());
-        for(int i = 1; i <= N; i++){
-            int input = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
 
-            sum[i] = sum[i-1] + input;
-
-            while(sum[i] - sum[point] >= S){
-                min = Math.min(min, i - point);
-                point++;
+        int min = Integer.MAX_VALUE;
+        int left = 0;
+        long sum = 0;
+        for (int right = 0; right < N; right++) {
+            sum += arr[right];
+            while (sum >= S) {
+                min = Math.min(min, right - left + 1);
+                sum -= arr[left++];
             }
         }
 
-        System.out.println(min == INF ? 0 : min);
+        System.out.println(min == Integer.MAX_VALUE ? 0 : min);
     }
 }
