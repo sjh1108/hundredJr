@@ -1,63 +1,35 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main{
-    private static int N, C;
-
-    static class Node implements Comparable<Node> {
-        int cost;
-        int value;
-
-        Node(int cost, int value) {
-            this.cost = cost;
-            this.value = value;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            return Integer.compare(this.cost, o.cost);
-        }
-    }
-
-    public static void main(String[] args) throws IOException{
+class Main {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        C = Integer.parseInt(st.nextToken());
-        N = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
 
-        int maxAds = 0;
-        Node[] nodes = new Node[N];
+        int[] cost = new int[N];
+        int[] people = new int[N];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            int cost = Integer.parseInt(st.nextToken());
-            int value = Integer.parseInt(st.nextToken());
-            nodes[i] = new Node(cost, value);
-
-            maxAds = Math.max(maxAds, value);
+            cost[i] = Integer.parseInt(st.nextToken());
+            people[i] = Integer.parseInt(st.nextToken());
         }
 
-        int[] dp = new int[C + maxAds + 1];
+        int[] dp = new int[C + 1];
         Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
-        for(int i = 0; i < C; i++){
-            if(dp[i] == Integer.MAX_VALUE) continue;
 
-            for (Node node : nodes) {
-                int afterAds = i + node.value;
-
-                dp[afterAds] = Math.min(dp[afterAds], dp[i] + node.cost);
+        for (int i = 1; i <= C; i++) {
+            for (int j = 0; j < N; j++) {
+                int prev = Math.max(0, i - people[j]);
+                if (dp[prev] != Integer.MAX_VALUE) {
+                    dp[i] = Math.min(dp[i], dp[prev] + cost[j]);
+                }
             }
         }
 
-        int result = Integer.MAX_VALUE;
-        for (int i = C; i < dp.length; i++) {
-            if (dp[i] != Integer.MAX_VALUE) {
-                result = Math.min(result, dp[i]);
-            }
-        }
-
-        System.out.println(result);
+        System.out.println(dp[C]);
     }
 }
