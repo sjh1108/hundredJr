@@ -2,63 +2,62 @@ import java.io.*;
 import java.util.*;
 
 class Main {
-    private static int N, K;
-
-    private static int[] delay, dp;
-    private static List<List<Integer>> list;
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        dp = new int[1001];
-        delay = new int[1001];
-        list = new ArrayList<>();
-        for(int i = 0; i < 1001; i++){
-            list.add(new ArrayList<>());
-        }
-        int T = Integer.parseInt(br.readLine());
-
+        StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
         StringBuilder sb = new StringBuilder();
-        while(T-- > 0){
-            for(List<Integer> l: list){
-                l.clear();
+
+        in.nextToken();
+        int T = (int) in.nval;
+
+        while (T-- > 0) {
+            in.nextToken(); int N = (int) in.nval;
+            in.nextToken(); int K = (int) in.nval;
+
+            int[] delay = new int[N + 1];
+            for (int i = 1; i <= N; i++) {
+                in.nextToken();
+                delay[i] = (int) in.nval;
             }
 
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            N = Integer.parseInt(st.nextToken());
-            K = Integer.parseInt(st.nextToken());
+            int[] head = new int[N + 1];
+            int[] next = new int[K + 1];
+            int[] to = new int[K + 1];
+            int[] inDeg = new int[N + 1];
+            Arrays.fill(head, -1);
 
-            st = new StringTokenizer(br.readLine());
-            for(int i = 1; i <= N; ++i) {
-                delay[i] = Integer.parseInt(st.nextToken());
-                dp[i] = Integer.MAX_VALUE;
+            for (int e = 1; e <= K; e++) {
+                in.nextToken(); int x = (int) in.nval;
+                in.nextToken(); int y = (int) in.nval;
+                to[e] = y;
+                next[e] = head[x];
+                head[x] = e;
+                inDeg[y]++;
             }
 
-            while(K-- > 0){
-                st = new StringTokenizer(br.readLine());
+            in.nextToken();
+            int W = (int) in.nval;
 
-                int x = Integer.parseInt(st.nextToken());
-                int y = Integer.parseInt(st.nextToken());
-
-                list.get(y).add(x);
+            int[] dp = new int[N + 1];
+            int[] queue = new int[N];
+            int qh = 0, qt = 0;
+            for (int i = 1; i <= N; i++) {
+                dp[i] = delay[i];
+                if (inDeg[i] == 0) queue[qt++] = i;
             }
 
-            sb.append(dfs(Integer.parseInt(br.readLine())));
-            sb.append('\n');
+            while (qh < qt) {
+                int u = queue[qh++];
+                if (u == W) break;
+                for (int e = head[u]; e != -1; e = next[e]) {
+                    int v = to[e];
+                    if (dp[u] + delay[v] > dp[v]) dp[v] = dp[u] + delay[v];
+                    if (--inDeg[v] == 0) queue[qt++] = v;
+                }
+            }
+
+            sb.append(dp[W]).append('\n');
         }
 
         System.out.print(sb);
-    }
-
-    private static int dfs(int start){
-        int max = 0;
-        if(dp[start] != Integer.MAX_VALUE) return dp[start];
-
-        for(int x : list.get(start)){
-            max = Math.max(max, dfs(x));
-        }
-
-        dp[start] = max + delay[start];
-
-        return dp[start];
     }
 }
