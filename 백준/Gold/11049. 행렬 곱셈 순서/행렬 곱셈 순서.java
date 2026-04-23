@@ -1,9 +1,10 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main{
-    public static void main(String[] args) throws IOException{
+class Main {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         int N = Integer.parseInt(br.readLine());
         
         int[][] map = new int[N+1][2];
