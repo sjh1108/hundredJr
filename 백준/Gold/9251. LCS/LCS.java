@@ -1,43 +1,29 @@
+import java.util.*;
 import java.io.*;
 
-public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-    static int N;
-    static int M;
-
-    static Integer[] f;
-    static int[][] arr;
-
+class Main{
     public static void main(String[] args) throws IOException{
-        String a = br.readLine();
-        String b = br.readLine();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        M = 0;
-        func(a, b);
+        char[] s1 = br.readLine().toCharArray();
+        char[] s2 = br.readLine().toCharArray();
 
-        System.out.println(M);
-    }
+        int len1 = s1.length, len2 = s2.length;
 
-    static void func(String a, String b){
-        int len1 = a.length();
-        int len2 = b.length();
-
-        arr = new int[len1 + 1][len2 + 1];
-
-        for(int i = 1; i < len1 + 1; i++){
-            for(int j = 1; j < len2 + 1; j++){
-                int m = Math.max(i, j);
-
-                if(a.charAt(i - 1) == b.charAt(j - 1)){
-                    arr[i][j] = Math.min(m, arr[i - 1][j - 1] + 1);
-                } else{
-                    arr[i][j] = Math.max(arr[i - 1][j], arr[i][j - 1]);
+        boolean[] check = new boolean[len1];
+        int[][] dp = new int[len1+1][len2+1];
+        for(int i = 0; i < len1; i++){
+            for(int j = 0; j < len2; j++){
+                if(s1[i] == s2[j]){
+                    dp[i+1][j+1] = dp[i][j] + 1;
+                    check[i] = true;
+                }
+                else{
+                    dp[i+1][j+1] = Math.max(dp[i][j+1], dp[i+1][j]);
                 }
             }
         }
-
-        M = arr[len1][len2];
-    }
+        
+        System.out.println(dp[len1][len2]);
+	}
 }
