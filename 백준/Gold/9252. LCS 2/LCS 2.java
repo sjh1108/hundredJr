@@ -1,24 +1,24 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
+class Main{
 
     static int N, M;
 
     public static void main(String[] args) throws IOException{
-        String s1 = br.readLine();
-        String s2 = br.readLine();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-        int l1 = s1.length(), l2 = s2.length();
+        char[] s1 = br.readLine().toCharArray();
+        char[] s2 = br.readLine().toCharArray();
 
-        boolean[] check = new boolean[l1];
-        int[][] dp = new int[l1+1][l2+1];
-        for(int i = 0; i < l1; i++){
-            for(int j = 0; j < l2; j++){
-                if(s1.charAt(i) == s2.charAt(j)){
+        int len1 = s1.length, len2 = s2.length;
+
+        boolean[] check = new boolean[len1];
+        int[][] dp = new int[len1+1][len2+1];
+        for(int i = 0; i < len1; i++){
+            for(int j = 0; j < len2; j++){
+                if(s1[i] == s2[j]){
                     dp[i+1][j+1] = dp[i][j] + 1;
                     check[i] = true;
                 }
@@ -27,21 +27,20 @@ public class Main{
                 }
             }
         }
-        sb.append(dp[l1][l2]).append('\n');
+        sb.append(dp[len1][len2]).append('\n');
 
-        int i = l1, j = l2;
-        Stack<Character> stack = new Stack<>();
+        int i = len1, j = len2;
+        Deque<Character> stack = new ArrayDeque<>();
         while(i > 0 && j > 0){
             if(dp[i][j] == dp[i-1][j]){
-                i--;
+                --i;
             }
             else if(dp[i][j] == dp[i][j-1]){
-                j--;
+                --j;
             }
             else{
-                stack.push(s1.charAt(i-1));
-                i--;
-                j--;
+                stack.push(s1[--i]);
+                --j;
             }
         }
         while(!stack.isEmpty()){
