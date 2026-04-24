@@ -1,18 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class Main{
-    static StringTokenizer st;
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-
-    static int N, M, K;
-
+class Main{
     public static void main(String[] args) throws IOException{
-        N = Integer.parseInt(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
 
         long[] arr = new long[N];
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i = 0; i < N; i++){
             arr[i] = Long.parseLong(st.nextToken());
         }
@@ -51,6 +46,8 @@ public class Main{
                 }
             }
         }
+        
+        StringBuilder sb = new StringBuilder();
         for(long l : result){
             sb.append(l).append(' ');
         }
