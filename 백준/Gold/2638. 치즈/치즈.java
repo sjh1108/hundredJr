@@ -1,10 +1,8 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+class Main{
     static StringBuilder sb = new StringBuilder();
-    static StringTokenizer st;
 
     static int N, M;
 
@@ -12,8 +10,12 @@ public class Main{
     static boolean[][] cheeze, visited;
     static int cnt = 0;
     public static void main(String[] args) throws IOException{
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken()); M = Integer.parseInt(st.nextToken());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        
         arr = new int[N][M];
         cheeze = new boolean[N][M];
 
@@ -53,8 +55,8 @@ public class Main{
         System.out.println(time);
     }
 
-    static void dfs(int x, int y){
-        Queue<int[]> q = new LinkedList<>();
+    private static void dfs(int x, int y){
+        Queue<int[]> q = new ArrayDeque<>();
         q.offer(new int[]{x, y});
         visited[x][y] = true;
         arr[x][y] = 2;
@@ -65,7 +67,7 @@ public class Main{
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+            if(isOut(nx, ny)) continue;
             if(visited[nx][ny] || cheeze[nx][ny]) continue;
 
             dfs(nx, ny);
@@ -81,7 +83,7 @@ public class Main{
             int nx = x + dx[i];
             int ny = y + dy[i];
 
-            if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+            if(isOut(nx, ny)) continue;
             if(arr[nx][ny] == 2) air++;
         }
 
@@ -89,5 +91,9 @@ public class Main{
             cheeze[x][y] = false;
             cnt--;
         }
+    }
+    
+    private static boolean isOut(int x, int y){
+        return x < 0 || y < 0 || x >= N || y >= M;
     }
 }
