@@ -37,10 +37,8 @@ class Main{
             }
         }
 
-        //flood
         flood();
 
-        // print(visited);
         int time = 0;
         int size = 0;
         Queue<int[]> melt = new ArrayDeque<>();;
@@ -73,7 +71,6 @@ class Main{
                 }
             }
 
-            //flood
             while(!melt.isEmpty()){
                 int[] cur = melt.poll();
                 visited[cur[0]][cur[1]] = true;
@@ -83,21 +80,8 @@ class Main{
 
             flood();
 
-            // System.out.println("Time: " + time + ", Melted: " + (size - cheese.size()));
-            // print(visited);
         }
         System.out.println(time + "\n" + size);
-    }
-
-    private static void print(boolean[][] visited){
-        System.out.println("===================");
-        for(int i = 0; i < visited.length; i++){
-            for(int j = 0; j < visited[0].length; j++){
-                System.out.print((visited[i][j] ? 0 : 1) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
     private static void flood(){
