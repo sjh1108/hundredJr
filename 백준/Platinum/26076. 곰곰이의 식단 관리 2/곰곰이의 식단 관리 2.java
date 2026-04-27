@@ -1,137 +1,102 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.StreamTokenizer;
+import java.util.ArrayDeque;
+import java.util.StringTokenizer;
 
 /**
- * 26076 - 곰곰이의 식단 관리 2
+ * 26076 - 곰곰이의 식단 관리 2 (ArrayDeque 버전)
  *
- * 풀이:
- *   - 빈 칸: 비용 1, 장애물: 비용 0, (0,0)/(N-1,M-1): 통과 불가
- *   - 가상 시작점 = 상/우 경계, 가상 끝점 = 하/좌 경계
- *   - 8방향 인접으로 0-1 BFS → 최단거리 = 추가로 놓아야 할 장애물 최소 개수
- *
- * 최적화:
- *   - StreamTokenizer로 입력 파싱
- *   - int 배열 기반 원형 deque (객체 할당 0)
- *   - 1차원 배열로 격자/거리 저장
+ * 가독성 우선 풀이.
+ * 0-1 BFS로 (상/우 경계) → (하/좌 경계) 8방향 최단거리를 구한다.
+ *   - 빈 칸: 비용 1
+ *   - 장애물: 비용 0
+ *   - (0,0), (N-1,M-1): 통과 불가
  */
 public class Main {
 
+    static final int INF = Integer.MAX_VALUE / 4;
+
     public static void main(String[] args) throws IOException {
-        StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
-        in.nextToken(); int N = (int) in.nval;
-        in.nextToken(); int M = (int) in.nval;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        int total = N * M;
-        // cost[i] = 0(장애물) / 1(빈 칸) / -1(통과 불가)
-        byte[] cost = new byte[total];
-
+        // cost[r][c]: 0(장애물) / 1(빈 칸) / -1(통과 불가)
+        int[][] cost = new int[N][M];
         for (int r = 0; r < N; r++) {
+            st = new StringTokenizer(br.readLine());
             for (int c = 0; c < M; c++) {
-                in.nextToken();
-                int v = (int) in.nval;
-                int idx = r * M + c;
+                int v = Integer.parseInt(st.nextToken());
                 if ((r == 0 && c == 0) || (r == N - 1 && c == M - 1)) {
-                    cost[idx] = -1;
+                    cost[r][c] = -1;
                 } else {
-                    cost[idx] = (byte) (v == 1 ? 0 : 1);
+                    cost[r][c] = (v == 1) ? 0 : 1;
                 }
             }
         }
 
-        final int INF = Integer.MAX_VALUE / 4;
-        int[] dist = new int[total];
-        for (int i = 0; i < total; i++) dist[i] = INF;
+        int[][] dist = new int[N][M];
+        for (int r = 0; r < N; r++) {
+            for (int c = 0; c < M; c++) dist[r][c] = INF;
+        }
 
-        // 원형 int deque
-        // deque에 들어갈 수 있는 노드 수의 상한: 각 칸은 최대 한 번만 "최종 거리"가 확정되지만,
-        // 같은 칸이 더 작은 거리로 갱신되면서 여러 번 들어갈 수 있다.
-        // 안전하게 capacity = total * 4로 잡는다 (4*4*10^6 = 16*10^6 int = 64MB). 
-        // 메모리 절약을 위해 더 작은 값 + 모듈러 인덱싱.
-        int cap = Math.max(16, total * 2);
-        int[] dq = new int[cap];
-        int head = 0, tail = 0;  // [head, tail) 모듈러 cap
+        ArrayDeque<int[]> dq = new ArrayDeque<>();
 
-        // TR(상/우 경계) 초기화: 1행과 M열의 통과 가능 칸을 비용만큼 거리로 두고 큐 삽입
+        // TR 초기화: 1행 ∪ M열의 통과 가능 칸
+        // - 1행
         for (int c = 0; c < M; c++) {
-            int idx = c;
-            if (cost[idx] < 0) continue;
-            int d = cost[idx];
-            if (d < dist[idx]) {
-                dist[idx] = d;
-                if (d == 0) {
-                    head = (head - 1 + cap) % cap;
-                    dq[head] = idx;
-                } else {
-                    dq[tail] = idx;
-                    tail = (tail + 1) % cap;
-                }
-            }
+            tryRelax(0, c, cost[0][c], cost, dist, dq);
         }
+        // - M열 (1행과 겹치는 (0, M-1)은 위에서 처리됨)
         for (int r = 1; r < N; r++) {
-            int idx = r * M + (M - 1);
-            if (cost[idx] < 0) continue;
-            int d = cost[idx];
-            if (d < dist[idx]) {
-                dist[idx] = d;
-                if (d == 0) {
-                    head = (head - 1 + cap) % cap;
-                    dq[head] = idx;
-                } else {
-                    dq[tail] = idx;
-                    tail = (tail + 1) % cap;
-                }
-            }
+            tryRelax(r, M - 1, cost[r][M - 1], cost, dist, dq);
         }
+
+        int[] dr = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] dc = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         int ans = INF;
 
-        while (head != tail) {
-            int cur = dq[head];
-            head = (head + 1) % cap;
-            int d = dist[cur];
-            int r = cur / M;
-            int c = cur % M;
+        while (!dq.isEmpty()) {
+            int[] cur = dq.pollFirst();
+            int r = cur[0], c = cur[1];
+            int d = dist[r][c];
 
-            // 처리 시점 거리가 stale이면 skip (deque에 중복 삽입됐을 수 있음)
-            // 위 코드 흐름상 거리 갱신 시에만 삽입하므로, 꺼낼 때 dist[cur]보다 큰 d로 들어왔을 수 있음.
-            // 하지만 우리는 d = dist[cur]로 바로 읽고 있어서 항상 최신값이 사용됨.
-            // 단, dist가 더 작아진 후 큐에서 다시 같은 노드를 만나면 처리는 한 번 더 일어나지만
-            // 더 이상 갱신은 일어나지 않음(인접한 모든 노드의 거리가 이미 작거나 같음).
-
+            // BL(N행 또는 1열) 도달?
             if (r == N - 1 || c == 0) {
                 if (d < ans) ans = d;
             }
 
-            // 8방향
-            int rm1 = r - 1, rp1 = r + 1;
-            int cm1 = c - 1, cp1 = c + 1;
+            for (int k = 0; k < 8; k++) {
+                int nr = r + dr[k];
+                int nc = c + dc[k];
+                if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
+                if (cost[nr][nc] < 0) continue;
 
-            for (int nr = rm1; nr <= rp1; nr++) {
-                if (nr < 0 || nr >= N) continue;
-                int base = nr * M;
-                for (int nc = cm1; nc <= cp1; nc++) {
-                    if (nc < 0 || nc >= M) continue;
-                    if (nr == r && nc == c) continue;
-                    int nidx = base + nc;
-                    byte cc = cost[nidx];
-                    if (cc < 0) continue;
-                    int nd = d + cc;
-                    if (nd < dist[nidx]) {
-                        dist[nidx] = nd;
-                        if (cc == 0) {
-                            head = (head - 1 + cap) % cap;
-                            dq[head] = nidx;
-                        } else {
-                            dq[tail] = nidx;
-                            tail = (tail + 1) % cap;
-                        }
-                    }
+                int nd = d + cost[nr][nc];
+                if (nd < dist[nr][nc]) {
+                    dist[nr][nc] = nd;
+                    if (cost[nr][nc] == 0) dq.addFirst(new int[]{nr, nc});
+                    else                   dq.addLast(new int[]{nr, nc});
                 }
             }
         }
 
         System.out.println(ans);
+    }
+
+    /**
+     * 가상 시작 노드 TR에서 (r, c)로 가는 거리(=cost[r][c])로 갱신 시도.
+     * 통과 불가(cost = -1) 칸은 무시.
+     */
+    static void tryRelax(int r, int c, int costVal, int[][] cost, int[][] dist, ArrayDeque<int[]> dq) {
+        if (costVal < 0) return;
+        if (costVal < dist[r][c]) {
+            dist[r][c] = costVal;
+            if (costVal == 0) dq.addFirst(new int[]{r, c});
+            else              dq.addLast(new int[]{r, c});
+        }
     }
 }
